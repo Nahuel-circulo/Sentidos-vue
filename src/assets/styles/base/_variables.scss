@@ -1,0 +1,52 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+
+
+
+$sentidos-black:#1A2223;
+$sentidos-light-gray: #E9EAED;
+$sentidos-gray: #545454;
+$sentidos-gold: #BB8A00;
+$sentidos-pink: #CD7A7F;
+$sentidos-white:#FFF;
+
+$colors: (
+  sentidos-light-gray: $sentidos-light-gray,
+  sentidos-gray: $sentidos-gray,
+  sentidos-gold: $sentidos-gold,
+  sentidos-pink: $sentidos-pink,
+  sentidos-white:$sentidos-white,
+);
+
+@each $colorName, $color in $colors {
+  .bg--#{$colorName} {
+    background-color: $color !important;
+  }
+  .text--#{$colorName} {
+    color: $color !important;
+  }
+}
+
+$font-merriweather: 'Merriweather', serif;
+
+.font-merriweather {
+  font-family: $font-merriweather !important;
+}
+
+.logo{
+    max-width: 100px;
+}
+.app-wrapper{
+  background-color: $sentidos-light-gray;
+}
+
+@font-face {
+  font-family: 'Malibu';
+  src: '../../fonts/Malibu.ttf';
+}
+
+$font-malibu: 'Malabu',sans-serif !important;
+
+.font-malinu{
+  font-family: $font-malibu;
+}

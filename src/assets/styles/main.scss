@@ -1,0 +1,16 @@
+@import './base/variables';
+@import './components/shared/navbar';
+@import './components/shared/footer';
+
+@import './views/menuView.scss';
+@import './views/eventosView.scss';
+@import './views/homeView.scss';
+@import './views/loginregister.scss';
+@import './views/reservasView.scss';
+
+
+
+@font-face {
+    font-family: 'Malibu';
+    src: '../fonts/Malibu.ttf';
+}

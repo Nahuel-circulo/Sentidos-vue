@@ -1,0 +1,99 @@
+.eventosView {
+    width: 100%;
+    max-width: 1366px;
+    font-family: $font-merriweather;
+    color: $sentidos-black;
+    margin: 0 auto;
+    position: relative;
+    padding: 0 10px;
+
+    &__header {
+        padding: 30px 10px;
+        border-bottom: 2px solid $sentidos-gold;
+
+        &-title {
+            color: $sentidos-gold;
+            font-size: 24px;
+        }
+
+        &-content {
+            margin: 15px 0;
+            font-size: 16px;
+            line-height: 24px;
+            text-align: justify;
+        }
+
+    }
+
+    &__gallery {
+        margin: 30px 0;
+        color: $sentidos-pink;
+
+        &-title {
+            text-align: center;
+            margin: 40px 0;
+        }
+
+        &-card {
+            margin: 0 auto;
+            width: 100%;
+            height: 100%;
+            max-width: 350px;
+            aspect-ratio: 16/9;
+            border: 5px solid $sentidos-pink;
+
+            &__image {
+                margin: 5px !important;
+                border: 5px solid $sentidos-gold;
+            }
+        }
+    }
+}
+
+@media screen and (min-width:768px) {
+
+    .eventosView {
+
+        &__header {
+            &-title {
+                font-size: 36px;
+            }
+
+            &-content {
+                margin: 15px 0;
+                font-size: 24px;
+                line-height: 38px;
+            }
+
+        }
+
+        &__gallery {
+
+
+            &-title {
+                font-size: 24px;
+            }
+
+            &-card {}
+        }
+    }
+
+}
+
+.image__overlay {
+
+
+    &-img {
+        width: 100% !important;
+        max-width: 900px !important;
+        margin: 0 auto !important;
+    }
+
+    &-btn {
+        margin: 0 auto;
+    }
+}
+
+.v-overlay__content {
+    width: 100% !important;
+}

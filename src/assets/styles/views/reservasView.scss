@@ -1,0 +1,51 @@
+.reservas__view {
+    max-width: 1366px;
+    margin: 0 auto;
+}
+
+.tables__container {
+    background-color: white;
+    max-width: 700px;
+    border: 3px solid #BB8A00;
+    border-radius: 10px;
+    padding: 10px !important;
+
+    @media screen and (min-width:768px) {
+        padding: 20px !important;
+    }
+}
+
+.icon-color {
+    color: white !important;
+}
+
+.reservas__form-field {
+    background-color: $sentidos-white;
+    width: 100%;
+    color: $sentidos-black;
+}
+
+.custom_select {
+    padding: 15px;
+    box-shadow: 0px 3px 1px -2px rgb(0 0 0 / 20%), 0px 2px 2px 0px rgb(0 0 0 / 14%), 0px 1px 5px 0px rgb(0 0 0 / 12%);
+}
+
+.v-field {
+    border: 2px solid $sentidos-gold !important;
+}
+
+.v-input__details {
+    background-color: #E9EAED;
+}
+
+
+.date-picker {
+    padding: 10px !important;
+    border: 2px solid $sentidos-gold;
+    border-radius: 4px;
+
+    &__label {
+        margin-right: 15px;
+    }
+
+}

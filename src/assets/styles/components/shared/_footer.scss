@@ -1,0 +1,40 @@
+.footer {
+  // max-height: 200px !important;
+  background: $sentidos-black !important;
+  color: $sentidos-pink !important;
+  font-family: $font-merriweather !important;
+  max-height: 310px;
+
+  &__container {
+
+    width: 90%;
+    height: 100%;
+    margin: 0 auto;
+    max-width: 1366px;
+  }
+
+
+  &__info {
+    font-size: 14px;
+    font-weight: 500;
+
+    @media screen and (min-width:600px) {
+      font-size: 18px;
+    }
+    &-logo {
+      max-width: 150px;
+      margin: 50px auto;
+      width: 100%;
+
+    }
+
+
+  }
+}
+
+.text-divider {
+  color: $sentidos-gold;
+  font-size: 20px;
+  font-weight: 700;
+  margin: 0 7px;
+}
