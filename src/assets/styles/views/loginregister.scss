@@ -9,7 +9,7 @@
         right: 0;
         width: 50%;
         height: 100%;
-        background: #f2eee3 url('@/assets/background.png');
+        background:  url('@/assets/background.png');
         background-size: cover;
         background-position: 50% 50%;
     }
@@ -19,7 +19,7 @@
         left: 0;
         width: 50%;
         height: 100%;
-        background: #e74c3c url('@/assets/background.png');
+        background:  url('@/assets/background.png') !important;
         background-size: cover;
         background-position: 50% 50%;
     }
