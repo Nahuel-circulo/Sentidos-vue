@@ -1,11 +1,12 @@
 <template>
-  <v-card class="mx-auto" max-width="344">
+  <v-card class="mx-auto product-card" max-width="344" >
     <v-img v-if="image" :src="require(`@/assets/comidas/${image}`)"></v-img>
     <v-card-text>
-      <h4>{{ title }} {{ price }}</h4>
+      <h4 class="product-card__title">{{ title }}</h4>
+      <h4 class="product-card__price">{{ price }}</h4>
     </v-card-text>
     <v-card-actions>
-      <v-btn text small color="teal accent-4" @click="show = true">
+      <v-btn text small class="product-card__btn" @click="show = true">
         Descripcion
       </v-btn>
     </v-card-actions>
@@ -22,7 +23,7 @@
           </p>
         </v-card-text>
         <v-card-actions class="pt-0">
-          <v-btn text color="teal accent-4" @click="show = false">
+          <v-btn text class="product-card__btn" @click="show = false">
             Cerrar
           </v-btn>
         </v-card-actions>

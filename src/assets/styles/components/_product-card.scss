@@ -1,0 +1,16 @@
+.product-card{
+
+    border: 1px solid $sentidos-gold !important;
+
+    &__title{
+        color: $sentidos-black;
+        font-weight: 600;
+    }
+    &__price{
+        color: $sentidos-gold;
+    }
+    &__btn{
+        color: $sentidos-pink !important;
+        font-weight: 500;
+    }
+}

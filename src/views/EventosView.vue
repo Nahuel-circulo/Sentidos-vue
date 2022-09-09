@@ -38,16 +38,17 @@
           absolute
           :opacity="0.8"
           :value="overlay"
+          
         >
         <v-img
         class="image__overlay-img"
         src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS-rRUBt97a_Uj-RjiDGlyyGDSQ1qHI9DY32g&usqp=CAU"
       ></v-img>
-          <v-btn
+          <v-btn class="mt-4"
             color="orange lighten-2"
             @click="overlay = false"
           >
-          Cerrar Imagen
+          Cerrar
           </v-btn>
         </v-overlay>
   </main>
