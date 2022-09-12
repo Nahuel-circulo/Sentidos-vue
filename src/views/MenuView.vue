@@ -14,7 +14,7 @@
         </v-row>
       </div>
 
-      <v-row>
+      <v-row v-if="loading">
         <v-col
           cols="12"
           sm="6"
@@ -36,9 +36,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent,ref } from "vue";
 import ProductCard from "@/components/ProductCard.vue";
-
+import axios from 'axios';
 interface Product {
   id: string;
   name: string;
@@ -52,7 +52,7 @@ export default defineComponent({
     ProductCard,
   },
   setup() {
-    const productos: Array<Product> = [
+   /*  const productos: Array<Product> = [
       {
         id: "1",
         name: "Asado de novillo corte americano",
@@ -133,8 +133,18 @@ export default defineComponent({
         price: "$100",
         image: "RAVIOLES-JAMON-QUESO.png",
       },
-    ];
+    ]; */
+      const loading = ref(true)
+    const productos = ref([])
 
+    const fetchProductos = async ()=>{
+      loading.value = true
+      const {data} = await axios.get('https://nahuelnp.pythonanywhere.com/api/food/')
+      productos.value = data.results
+      console.log(data.results)
+    }
+
+    fetchProductos()
     const steps = [
       "Abra la cámara de su celular.",
       "Apunte hacia la pantalla como si fuera a sacar una foto, ubicando el código en el centro.",
@@ -144,6 +154,7 @@ export default defineComponent({
     return {
       productos,
       steps,
+      loading
     };
   },
 });
