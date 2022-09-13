@@ -52,7 +52,8 @@
       <!--  -->
       <div class="navbar__hamburguer">
         <button @click="menuToggle(true)">
-          <v-icon color="white" small>mdi-menu</v-icon>
+          <span class="white--text" v-if="user">{{ user.name }}</span>
+          <v-icon color="white" small>mdi-account</v-icon>
         </button>
       </div>
     </div>
@@ -75,15 +76,9 @@
       </div>
       <!--  -->
       <div class="navbar__menu__links">
-        <navbar-menu-link type="NuxtLink" url="/">
-          <v-icon>
-            mdi-home
-          </v-icon> Inicio
-        </navbar-menu-link>
-        
-        <navbar-menu-link type="NuxtLink" url="/menu">
-          Menú
-        </navbar-menu-link>
+        <navbar-menu-link type="NuxtLink" url="/"> Inicio </navbar-menu-link>
+
+        <navbar-menu-link type="NuxtLink" url="/menu"> Menú </navbar-menu-link>
         <navbar-menu-link type="NuxtLink" url="/reservas">
           Reservas
         </navbar-menu-link>
@@ -120,8 +115,8 @@
         <navbar-menu-link type="NuxtLink" url="/eventos">
           Eventos
         </navbar-menu-link>
-        <navbar-menu-link type="NuxtLink" url="/login-signin">
-          Login/Signin
+        <navbar-menu-link v-if="!user.name" type="NuxtLink" url="/login">
+          Ingresar/Registrarse
         </navbar-menu-link>
         <navbar-menu-link type="NuxtLink" url="/novedades">
           Novedades
@@ -129,6 +124,9 @@
         <navbar-menu-link type="NuxtLink" url="/contacto">
           Contacto
         </navbar-menu-link>
+        <v-btn @click="cerrarSesion" v-if="user.name" text color="white" class="mx-auto mt-2"
+          >Cerrar Sesion</v-btn
+        >
       </div>
       <!--  -->
       <div class="navbar__menu__footer"></div>
@@ -142,10 +140,8 @@
       </button>
 
       <div class="navbar__menu--desktop__links">
-        <router-link
-          to="/login-signin"
-          class="navbar__menu--desktop__links__link"
-          >Login/Signin</router-link
+        <router-link to="/login" v-if="!user.name" class="navbar__menu--desktop__links__link"
+          >Ingresar/Registrarse</router-link
         >
         <router-link to="/novedades" class="navbar__menu--desktop__links__link"
           >Novedades</router-link
@@ -153,6 +149,7 @@
         <router-link to="/contacto" class="navbar__menu--desktop__links__link"
           >Contacto</router-link
         >
+        <v-btn @click="cerrarSesion" v-if="user.name" text color="white">Cerrar Sesion</v-btn>
       </div>
       <div class="navbar__menu--desktop__sm" v-if="isLoaded">
         <a v-if="rrss.facebook_link" :href="rrss.facebook_link" target="_blank">
@@ -171,39 +168,44 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from "vue";
+import Vue from "vue";
 import NavbarMenuLink from "./NavbarMenuLink.vue";
-export default defineComponent({
+export default Vue.extend({
   components: {
     NavbarMenuLink,
   },
-  setup() {
-    const menuIsActive = ref<boolean>(false);
-    const menuToggle = (menuState: boolean) => {
-      menuIsActive.value = menuState;
-    };
-    const serviciosIsActive = ref<boolean>(false);
-    const serviciosToggle = (serviciosState: boolean) => {
-      serviciosIsActive.value = serviciosState;
-    };
-    const rrss = ref({
-      facebook_link: "",
-      instagram_link: "",
-      mail: "",
-      phone: 0,
-      office_hours: "",
-    });
-    const isLoaded = ref(false);
-
+  data() {
     return {
-      menuIsActive,
-      menuToggle,
-      serviciosIsActive,
-      serviciosToggle,
-      rrss,
-      isLoaded,
+      rrss: {
+        facebook_link: "",
+        instagram_link: "",
+        mail: "",
+        phone: 0,
+        office_hours: "",
+      },
+      menuIsActive: false,
+      serviciosIsActive: false,
+      isLoaded: false,
     };
   },
+  methods: {
+    menuToggle(menuState: boolean) {
+      this.menuIsActive = menuState;
+    },
+    serviciosToggle(serviciosState: boolean) {
+      this.serviciosIsActive = serviciosState;
+    },
+    cerrarSesion() {
+      localStorage.removeItem("sentidos_user");
+      this.$store.commit("usuarios/SET_USER",{})
+    },
+  },
+  computed: {
+    user() {
+      return this.$store.getters["usuarios/getUser"]
+    },
+  },
+
   watch: {
     $route() {
       this.menuIsActive = false;

@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import menu from './modules/menu';
 import opiniones from './modules/opiniones';
+import usuarios from './modules/usuarios';
 import reservas from './modules/reservas';
 Vue.use(Vuex)
 
@@ -19,6 +20,7 @@ export default new Vuex.Store({
   modules: {
     menu,
     opiniones,
-    reservas
+    reservas,
+    usuarios
   }
 })

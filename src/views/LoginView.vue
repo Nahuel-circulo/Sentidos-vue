@@ -1,7 +1,7 @@
 <template>
   <div class="container-form">
     <div class="formulario" :class="active ? 'active' : ''">
-      <div class="formulario-container" v-if="!active">
+      <div class="formulario-container" v-if="active">
         <h2 class="my-4">REGISTRARSE</h2>
         <v-form ref="form" v-model="registerValid" lazy-validation>
           <v-text-field
@@ -128,29 +128,26 @@ export default Vue.extend({
     },
     async login() {
       if (this.loginValid && this.emailLogin && this.passwordLogin) {
-        const {data} = await api_django.get('/users/',{
-            params:{
-                email : this.emailLogin,
-                password : this.passwordLogin
-                
-            }
-        })
-        console.log(data)
-        this.usuario = data.results
+        this.$store.dispatch("usuarios/fetchUser", {
+          email: this.emailLogin,
+          password: this.passwordLogin,
+        });
+        console.log("login")
+        console.log(JSON.stringify(localStorage.getItem("sentidos_user")))
       } else {
         this.$refs.formLogin.validate();
       }
     },
-   async register() {
+    async register() {
       if (this.registerValid && this.password && this.email && this.gender) {
-        const {data} = await api_django.post('/users/',{
-            name:this.name,
-            gender:this.gender,
-            email:this.email,
-            password:this.password
-        })
-        console.log(data)
-        this.usuario = data.results
+        const { data } = await api_django.post("/users/", {
+          name: this.name,
+          gender: this.gender,
+          email: this.email,
+          password: this.password,
+        });
+        console.log(data);
+        this.usuario = data.results;
       } else {
         this.$refs.form.validate();
       }
