@@ -37,6 +37,7 @@
     <v-overlay
           :opacity="0.8"
           :value="overlay"
+          
         >
         <v-img
         class="image__overlay-img"

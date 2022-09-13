@@ -1,7 +1,7 @@
 <template>
   <main class="reservas__view">
     <v-container>
-      <h1>Reservas - Seleccione su mesa</h1>
+      <h1>Reservas</h1>
 
       <v-stepper v-model="e1">
         <v-stepper-header>
@@ -44,6 +44,7 @@
                 type="date"
                 name="Fecha"
               />
+              {{fecha}}
             </div>
             <v-btn color="#CD7A7F text--white" @click="e1 = 2"> Continuar </v-btn>
           </v-stepper-content>

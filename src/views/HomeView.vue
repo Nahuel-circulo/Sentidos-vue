@@ -28,15 +28,16 @@
               class="ma-0 px-16 d-flex justify-center align-center"
             >
               <p class="comentario__comentario">
-                {{ comentario.comentario }}
+                {{ comentario.comment }}
               </p>
             </v-col>
             <v-col cols="12" sm="5" class="d-flex justify-center align-center">
               <div class="mx-auto d-flex flex-column">
+                <h2 class="text-center white--text my-2">{{comentario.name}}</h2>
                 <v-img
                   class="comentario__image"
                   :src="
-                    comentario.sexo == 'M'
+                    comentario.gender == 'H'
                       ? require('../assets/M.svg')
                       : require('../assets/F.svg')
                   "
@@ -44,7 +45,7 @@
                 </v-img>
                 <v-rating
                   color="#BB8A00"
-                  v-model="comentario.calificacion"
+                  v-model="comentario.calification"
                   class="ma-2"
                   density="default"
                 ></v-rating>
@@ -58,41 +59,27 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import Vue from "vue";
 import Carousel from "@/components/Carousel.vue";
 
-export default defineComponent({
+export default Vue.extend({
   name: "HomeView",
 
   components: {
     Carousel,
   },
-  setup() {
-    const comentarios = [
-      {
-        name: "Juana Reyes",
-        comentario:
-          "Me ha gustado mucho la atención y profesionalidad con la que reciben a los comensales. Sin duda, lo recomiendo.",
-        calificacion: 5,
-        sexo: "F",
-      },
-      {
-        name: "Fulanito",
-        comentario: "Muy buena la comida, me gustó mucho.",
-        calificacion: 4,
-        sexo: "M",
-      },
-      {
-        name: "Menganido",
-        comentario:
-          "La carne estaba un poco dura, dicen que es de ternera... cuando la empezaron a correr.",
-        calificacion: 2,
-        sexo: "M",
-      },
-    ];
-    return {
-      comentarios,
-    };
+  data() {
+    return{
+
+    }
+  },
+  computed: {
+    comentarios() {
+      return this.$store.getters["opiniones/getOpiniones"];
+    },
+  },
+  created() {
+    this.$store.dispatch("opiniones/fetchOpiniones");
   },
 });
 </script>
