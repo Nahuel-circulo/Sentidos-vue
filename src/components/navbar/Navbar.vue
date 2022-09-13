@@ -52,7 +52,7 @@
       <!--  -->
       <div class="navbar__hamburguer">
         <button @click="menuToggle(true)">
-          <span class="white--text" v-if="user">{{ user.name }}</span>
+          <span class="white--text" v-if="user ">{{ user.name }}</span>
           <v-icon color="white" small>mdi-account</v-icon>
         </button>
       </div>
@@ -115,7 +115,7 @@
         <navbar-menu-link type="NuxtLink" url="/eventos">
           Eventos
         </navbar-menu-link>
-        <navbar-menu-link v-if="!user.name" type="NuxtLink" url="/login">
+        <navbar-menu-link v-if="!user " type="NuxtLink" url="/login">
           Ingresar/Registrarse
         </navbar-menu-link>
         <navbar-menu-link type="NuxtLink" url="/novedades">
@@ -124,7 +124,7 @@
         <navbar-menu-link type="NuxtLink" url="/contacto">
           Contacto
         </navbar-menu-link>
-        <v-btn @click="cerrarSesion" v-if="user.name" text color="white" class="mx-auto mt-2"
+        <v-btn @click="cerrarSesion" v-if="user " text color="white" class="mx-auto mt-2"
           >Cerrar Sesion</v-btn
         >
       </div>
@@ -140,7 +140,7 @@
       </button>
 
       <div class="navbar__menu--desktop__links">
-        <router-link to="/login" v-if="!user.name" class="navbar__menu--desktop__links__link"
+        <router-link to="/login" v-if=" !user " class="navbar__menu--desktop__links__link"
           >Ingresar/Registrarse</router-link
         >
         <router-link to="/novedades" class="navbar__menu--desktop__links__link"
@@ -149,7 +149,7 @@
         <router-link to="/contacto" class="navbar__menu--desktop__links__link"
           >Contacto</router-link
         >
-        <v-btn @click="cerrarSesion" v-if="user.name" text color="white">Cerrar Sesion</v-btn>
+        <v-btn @click="cerrarSesion" v-if="user" text color="white">Cerrar Sesion</v-btn>
       </div>
       <div class="navbar__menu--desktop__sm" v-if="isLoaded">
         <a v-if="rrss.facebook_link" :href="rrss.facebook_link" target="_blank">
