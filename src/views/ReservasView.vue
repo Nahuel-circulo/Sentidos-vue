@@ -44,9 +44,11 @@
                 type="date"
                 name="Fecha"
               />
-              {{fecha}}
+              {{ fecha }}
             </div>
-            <v-btn color="#CD7A7F text--white" @click="e1 = 2"> Continuar </v-btn>
+            <v-btn color="#CD7A7F text--white" @click="fetchReservas">
+              Continuar
+            </v-btn>
           </v-stepper-content>
 
           <v-stepper-content step="2">
@@ -61,16 +63,18 @@
                 >
                   <v-btn
                     class="icon-color"
-                    @click="changeColor(item.position)"
+                    
                     :color="item.reservado ? '#CD7A7F' : '#545454'"
                   >
-                    {{ item.position }}
+                    {{ item.id }}
                   </v-btn>
                 </v-col>
               </v-row>
             </div>
 
-            <v-btn color="#CD7A7F white--text" @click="e1 = 3"> Continuar </v-btn>
+            <v-btn color="#CD7A7F white--text" @click="e1 = 3">
+              Continuar
+            </v-btn>
 
             <v-btn text @click="e1 = 1"> Atras </v-btn>
           </v-stepper-content>
@@ -128,21 +132,23 @@
                 class="reservas__form-field"
                 name="input-7-4"
                 :counter="144"
-                :rules="comentarioRules"
                 label="Comentario (opcional)"
               ></v-textarea>
             </div>
-            <v-btn color="#CD7A7F white--text" @click="e1 = 1"> Continuar </v-btn>
+            <v-btn color="#CD7A7F white--text" @click="e1 = 1">
+              Continuar
+            </v-btn>
 
             <v-btn text @click="e1 = 2"> Atras </v-btn>
           </v-stepper-content>
         </v-stepper-items>
       </v-stepper>
+      {{reservations}}
     </v-container>
   </main>
 </template>
 
-<script lang="ts">
+<!-- <script lang="ts">
 import { defineComponent, ref } from "vue";
 
 import moment from "moment";
@@ -276,8 +282,63 @@ export default defineComponent({
   },
   components: { ReservasStepper },
 });
-</script>
+</script> -->
 
+<script lang="ts">
+import Vue from "vue";
+import moment from "moment";
+import ReservasStepper from "@/components/ReservasStepper.vue";
+
+export default Vue.extend({
+  components: {
+    ReservasStepper,
+  },
+  data() {
+    return {
+      e1: 1,
+      hoy: moment().format("YYYY-MM-DD"),
+      fecha: "",
+      table: 0,
+      comentanio: "",
+      email: "",
+      emailRules: [(v:any) => !!v || "Email es requerido"],
+      name: "",
+      nameRules: [(v: any) => !!v || "Nombre es requerido"],
+      horario: "Matutino",
+      cantidad: 1,
+      items: [1, 2, 3, 4],
+    };
+  },
+  methods: {
+    changeColor() {},
+    fetchReservas() {
+      var hora;
+      if(this.horario == "Matutino"){
+        hora = "M"
+      }else{
+        hora ="N"
+      }
+      this.$store.dispatch("reservas/fetchReservas",{
+        fecha:this.fecha,
+        horario:hora
+      });
+      this.e1 = 2
+    },
+  },
+  mounted() {
+    this.$store.dispatch("reservas/fetchMesas");
+  },
+  computed: {
+    tables() {
+      return this.$store.getters["reservas/getMesas"];
+    },
+    reservations(){
+      
+      return this.$store.getters["reservas/getReservas"];
+    }
+  },
+});
+</script>
 <style lang="scss" scoped>
 .step {
   max-width: 600px;

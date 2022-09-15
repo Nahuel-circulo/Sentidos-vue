@@ -5,6 +5,8 @@ export interface Mesas {
     id:       number;
     nro_mesa: number;
 }
+
+
 export interface Reservas {
     id:         number;
     nro_mesa:   number;
@@ -37,10 +39,20 @@ const getters: GetterTree<MenuStateInterface, any> = {
 
 // actions
 const actions: ActionTree<MenuStateInterface, any> = {
-    fetchMesas: async ({ commit, state }, products) => {
+    fetchMesas: async ({ commit, state }) => {
         const { data } = await api_django.get('/tables/')
         state.mesas = data.results
         commit('SET_MESAS',data.results)
+    },
+    fetchReservas: async ({ commit, state },{fecha,horario}) => {
+        const { data } = await api_django.get('/reservation/',{
+            params:{
+                horario,
+                fecha
+            }
+        })
+        state.reservas = data.results
+        commit('SET_RESERVAS',data.results)
     },
 
 
