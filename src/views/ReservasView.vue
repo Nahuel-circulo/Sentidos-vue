@@ -63,7 +63,6 @@
                 >
                   <v-btn
                     class="icon-color"
-                    
                     :color="item.reservado ? '#CD7A7F' : '#545454'"
                   >
                     {{ item.id }}
@@ -143,7 +142,7 @@
           </v-stepper-content>
         </v-stepper-items>
       </v-stepper>
-      {{reservations}}
+      {{ reservations }}
     </v-container>
   </main>
 </template>
@@ -301,7 +300,7 @@ export default Vue.extend({
       table: 0,
       comentanio: "",
       email: "",
-      emailRules: [(v:any) => !!v || "Email es requerido"],
+      emailRules: [(v: any) => !!v || "Email es requerido"],
       name: "",
       nameRules: [(v: any) => !!v || "Nombre es requerido"],
       horario: "Matutino",
@@ -313,16 +312,16 @@ export default Vue.extend({
     changeColor() {},
     fetchReservas() {
       var hora;
-      if(this.horario == "Matutino"){
-        hora = "M"
-      }else{
-        hora ="N"
+      if (this.horario == "Matutino") {
+        hora = "M";
+      } else {
+        hora = "N";
       }
-      this.$store.dispatch("reservas/fetchReservas",{
-        fecha:this.fecha,
-        horario:hora
+      this.$store.dispatch("reservas/fetchReservas", {
+        fecha: this.fecha,
+        horario: hora,
       });
-      this.e1 = 2
+      this.e1 = 2;
     },
   },
   mounted() {
@@ -332,9 +331,16 @@ export default Vue.extend({
     tables() {
       return this.$store.getters["reservas/getMesas"];
     },
-    reservations(){
-      
+    reservations() {
       return this.$store.getters["reservas/getReservas"];
+    },
+    user() {
+      this.$store.getters["usuarios/getUser"];
+    },
+  },
+  beforeMount() {
+    if (!this.user) {
+      this.$router.push("/login")
     }
   },
 });

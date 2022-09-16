@@ -1,81 +1,84 @@
 <template>
   <div class="container-form">
     <div class="formulario" :class="active ? 'active' : ''">
-      <div class="formulario-container" v-if="active">
-        <h2 class="my-4">REGISTRARSE</h2>
-        <v-form ref="form" v-model="registerValid" lazy-validation>
-          <v-text-field
-            v-model="name"
-            :counter="40"
-            :rules="nameRules"
-            label="Name"
-            required
-            solo
-          ></v-text-field>
+      <div class="formulario-section" v-if="active">
+        <div class="formulario-container">
+          <h2 class="my-4">REGISTRARSE</h2>
+          <v-form ref="form" v-model="registerValid" lazy-validation>
+            <v-text-field
+              v-model="name"
+              :counter="40"
+              :rules="nameRules"
+              label="Name"
+              required
+              solo
+            ></v-text-field>
 
-          <v-text-field
-            v-model="email"
-            :rules="emailRules"
-            label="E-mail"
-            required
-            solo
-          ></v-text-field>
-          <v-text-field
-            v-model="password"
-            :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
-            :rules="[rules.required, rules.min]"
-            :type="showPassword ? 'text' : 'password'"
-            label="Contraseña"
-            hint="Contraseña correcta"
-            counter
-            solo
-            @click:append="showPassword = !showPassword"
-          ></v-text-field>
-          <v-select
-            v-model="gender"
-            :items="sexos"
-            item-text="nombre"
-            item-value="value"
-            :rules="[(v) => !!v || 'Sexo es requerido']"
-            label="Sexo"
-            required
-            solo
-          ></v-select>
-        </v-form>
-        <v-btn class="white--text" color="#cd7a7f" @click="register"
-          >Registrarse</v-btn
-        >
-        <p class="mt-4">
-          Ya tienes una cuenta?
-          <v-btn text small @click="cambiar">Ingresar</v-btn>
-        </p>
+            <v-text-field
+              v-model="email"
+              :rules="emailRules"
+              label="E-mail"
+              required
+              solo
+            ></v-text-field>
+            <v-text-field
+              v-model="password"
+              :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+              :rules="[rules.required, rules.min]"
+              :type="showPassword ? 'text' : 'password'"
+              label="Contraseña"
+              hint="Contraseña correcta"
+              counter
+              solo
+              @click:append="showPassword = !showPassword"
+            ></v-text-field>
+            <v-select
+              v-model="gender"
+              :items="sexos"
+              item-text="nombre"
+              item-value="value"
+              :rules="[(v) => !!v || 'Sexo es requerido']"
+              label="Sexo"
+              required
+              solo
+            ></v-select>
+          </v-form>
+          <v-btn class="white--text" color="#cd7a7f" @click="register"
+            >Registrarse</v-btn
+          >
+          <p class="mt-4">
+            Ya tienes una cuenta?
+            <v-btn text small @click="cambiar">Ingresar</v-btn>
+          </p>
+        </div>
       </div>
-
-      <div class="formulario-container" v-else>
-        <h2 class="my-4">INGRESAR</h2>
-        <v-form ref="formLogin" v-model="loginValid" lazy-validation>
-          <v-text-field
-            v-model="emailLogin"
-            label="E-mail"
-            solo
-            :rules="emailRulesLogin"
-          ></v-text-field>
-          <v-text-field
-            v-model="passwordLogin"
-            :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
-            :type="showPassword ? 'text' : 'password'"
-            label="Contraseña"
-            solo
-            @click:append="showPassword = !showPassword"
-          ></v-text-field>
-        </v-form>
-        <v-btn color="#cd7a7f" class="white--text" @click="login"
-          >Ingresar</v-btn
-        >
-        <p class="mt-4">
-          No estas registrado?
-          <v-btn text small @click="cambiar">Registrarse</v-btn>
-        </p>
+      <div class="formulario-section" v-else>
+        <div class="formulario-container">
+          <h2 class="my-4">INGRESAR</h2>
+          <v-form ref="formLogin" v-model="loginValid" lazy-validation>
+            <v-text-field
+              v-model="emailLogin"
+              label="E-mail"
+              solo
+              :rules="emailRulesLogin"
+            ></v-text-field>
+            <v-text-field
+              v-model="passwordLogin"
+              :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+              :type="showPassword ? 'text' : 'password'"
+              label="Contraseña"
+              solo
+              @click:append="showPassword = !showPassword"
+            ></v-text-field>
+          </v-form>
+          <v-btn color="#cd7a7f" class="white--text" @click="login"
+            >Ingresar</v-btn
+          >
+          <p class="mt-4">
+            No estas registrado?
+            <v-btn text small @click="cambiar">Registrarse</v-btn>
+          </p>
+        </div>
       </div>
     </div>
   </div>
@@ -132,8 +135,6 @@ export default Vue.extend({
           email: this.emailLogin,
           password: this.passwordLogin,
         });
-        console.log("login")
-        console.log(JSON.stringify(localStorage.getItem("sentidos_user")))
       } else {
         this.$refs.formLogin.validate();
       }
@@ -153,6 +154,11 @@ export default Vue.extend({
       }
     },
   },
+  computed: {
+    user() {
+      this.$store.getters["usuarios/getUser"];
+    },
+  },
 });
 </script>
 
@@ -162,6 +168,18 @@ export default Vue.extend({
   width: 100%;
   position: relative;
   transition: all 0.5s ease-in-out;
+
+  .formulario-container {
+    padding: 10px 20px;
+    width: 90%;
+    max-width: 500px;
+    border: 2px solid #CD7A7F;
+    border-radius: 8px;
+  }
+
+  .formulario-section{
+    width: 100%;
+  }
   .formulario {
     position: relative;
     left: 0;

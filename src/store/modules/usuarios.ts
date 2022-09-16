@@ -34,12 +34,14 @@ const actions: ActionTree<MenuStateInterface, any> = {
             email ,
             password            
         }})
-        state.usuario = data.results
+        
         console.log(data.results)
-        if (data.results) {
+
+        if (data.results.length) {
+            console.log("ejecutas")
             localStorage.setItem("sentidos_user",JSON.stringify(data.results[0]))
+            commit('SET_USER',data.results[0])
         }
-        commit('SET_USER',data.results)
     },
 
 
