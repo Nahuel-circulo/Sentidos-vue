@@ -335,7 +335,7 @@ export default Vue.extend({
       return this.$store.getters["reservas/getReservas"];
     },
     user() {
-      this.$store.getters["usuarios/getUser"];
+      return this.$store.getters["usuarios/getUser"];
     },
   },
   beforeMount() {
