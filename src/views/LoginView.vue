@@ -78,6 +78,7 @@
             No estas registrado?
             <v-btn text small @click="cambiar">Registrarse</v-btn>
           </p>
+          <p v-if="errorMessageLogin" class="red--text">{{errorMessageLogin}}</p>
         </div>
       </div>
     </div>
@@ -141,14 +142,18 @@ export default Vue.extend({
     },
     async register() {
       if (this.registerValid && this.password && this.email && this.gender) {
-        const { data } = await api_django.post("/users/", {
-          name: this.name,
-          gender: this.gender,
-          email: this.email,
-          password: this.password,
-        });
-        console.log(data);
-        this.usuario = data.results;
+        try {
+          const { data } = await api_django.post("/users/", {
+            name: this.name,
+            gender: this.gender,
+            email: this.email,
+            password: this.password,
+          });
+          console.log(data);
+          this.usuario = data.results;
+        } catch (error) {
+          alert(`Ya existe un usuario con email ${this.email}`)
+        }
       } else {
         this.$refs.form.validate();
       }
@@ -156,8 +161,11 @@ export default Vue.extend({
   },
   computed: {
     user() {
-      this.$store.getters["usuarios/getUser"];
+      return this.$store.getters["usuarios/getUser"];
     },
+    errorMessageLogin(){
+     return this.$store.getters["usuarios/getLoginError"]
+    }
   },
 });
 </script>

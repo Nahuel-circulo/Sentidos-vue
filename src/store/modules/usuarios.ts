@@ -2,7 +2,6 @@ import { api_django } from '@/api/apiDajngo';
 import { GetterTree, ActionTree, MutationTree } from 'vuex';
 
 // initial state
-// shape: [{ id, quantity }]
 
 export interface Usuario {
     id:           number;
@@ -13,10 +12,12 @@ export interface Usuario {
 
 export interface MenuStateInterface {
     usuario: Usuario | null
+    loginError: String
 }
 
 const state = (): MenuStateInterface => ({
-    usuario: null
+    usuario: null,
+    loginError:""
 })
 
 // getters
@@ -24,6 +25,9 @@ const getters: GetterTree<MenuStateInterface, any> = {
     getUser: (state, getters, rootState) => {
         return state.usuario
     },
+    getLoginError:(state)=>{
+        return state.loginError
+    }
 
 }
 
@@ -41,6 +45,9 @@ const actions: ActionTree<MenuStateInterface, any> = {
             console.log("ejecutas")
             localStorage.setItem("sentidos_user",JSON.stringify(data.results[0]))
             commit('SET_USER',data.results[0])
+            commit("SET_LOGIN_ERROR","")
+        }else{
+            commit("SET_LOGIN_ERROR","Los datos ingresados son incorrectos")
         }
     },
 
@@ -51,6 +58,9 @@ const actions: ActionTree<MenuStateInterface, any> = {
 const mutations: MutationTree<MenuStateInterface> = {
     SET_USER(state, payload) {
         state.usuario = payload
+    },
+    SET_LOGIN_ERROR(state,payload){
+        state.loginError=payload
     }
 }
 
