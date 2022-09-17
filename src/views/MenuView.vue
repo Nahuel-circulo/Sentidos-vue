@@ -1,6 +1,6 @@
 <template>
   <main class="menu-view">
-    <v-container>
+    <v-container >
       <div class="menu__qr">
         <v-row class="menu__qr-container d-flex justify-center">
           <v-col
@@ -28,24 +28,27 @@
         </v-row>
       </div>
 
-      <v-row >
-        <v-col
-          cols="12"
-          sm="6"
-          md="4"
-          lg="3"
-          v-for="food in productos"
-          :key="food.id"
-        >
-          <ProductCard
-            :description="food.description"
-            :image="food.image"
-            :price="food.price"
-            :title="food.name"
-          />
-        </v-col>
-      </v-row>
+      <Header :title="'Menu Restaurante'"  class="my-8" :image="require('../assets/images/restaurante.jpg')"/>
       
+        <v-row>
+          <v-col
+            cols="12"
+            sm="6"
+            md="4"
+            lg="3"
+            v-for="food in productos"
+            :key="food.id"
+          >
+            <ProductCard
+              :description="food.description"
+              :image="food.image"
+              :price="food.price"
+              :title="food.name"
+            />
+          </v-col>
+        </v-row>
+      
+      <Header :title="'Menu Casa de te'" class="my-8"  :image="require('../assets/images/casa-de-te.jpg')"/>
     </v-container>
   </main>
 </template>
@@ -53,8 +56,9 @@
 <script lang="ts">
 import Vue from "vue";
 import ProductCard from "@/components/ProductCard.vue";
+import Header from "@/components/Header.vue";
 export default Vue.extend({
-  components: { ProductCard },
+  components: { ProductCard, Header },
   data() {
     return {
       loading: true,

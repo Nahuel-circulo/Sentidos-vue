@@ -1,9 +1,8 @@
 <template>
   <main class="reservas__view">
+    <Header :image="require('../assets/images/reserva.jpg')" title="Reservas" subtitle="Anticipate y reserva tu lugar"/>
     <v-container>
-      <h1>Reservas</h1>
-
-      <v-stepper v-model="e1">
+      <v-stepper v-model="e1" class="my-8">
         <v-stepper-header>
           <v-stepper-step :complete="e1 > 1" step="1">
             Seleccione Fecha y Horario
@@ -37,14 +36,15 @@
               </div>
               <label class="date-picker__label" for="fecha">Fecha</label>
               <input
-                :min="hoy"
+                :min="fecha"
+                :max="max"
                 v-model="fecha"
                 id="fecha"
                 class="reservas__form-field date-picker mb-4"
                 type="date"
                 name="Fecha"
               />
-              {{ fecha }}
+              
             </div>
             <v-btn color="#CD7A7F text--white" @click="fetchReservas">
               Continuar
@@ -55,8 +55,9 @@
             <!-- step 2 -->
             <div class="step py-8">
               <p>Por favor seleccione su mesa</p>
-<!--               <p><span class="">Reservado</span> <span>Disponible</span> <span>Su selccion</span></p>
- -->              <v-row class="pa-0 ma-0 tables__container">
+              <!--               <p><span class="">Reservado</span> <span>Disponible</span> <span>Su selccion</span></p>
+ -->
+              <v-row class="pa-0 ma-0 tables__container">
                 <v-col
                   class="d-flex justify-center"
                   cols="3"
@@ -78,7 +79,7 @@
             <v-btn
               color="#CD7A7F white--text"
               :disabled="table == 0"
-              @click="e1=3"
+              @click="e1 = 3"
             >
               Continuar
             </v-btn>
@@ -157,75 +158,79 @@
 <script lang="ts">
 import Vue from "vue";
 import moment from "moment";
+import Header from "@/components/Header.vue";
 
 export default Vue.extend({
-  data() {
-    return {
-      e1: 1,
-      hoy: moment().format("YYYY-MM-DD"),
-      fecha: moment().add(2, "days").format("YYYY-MM-DD"),
-      table: 0,
-      comentanio: "",
-      email: "",
-      emailRules: [(v: any) => !!v || "Email es requerido"],
-      name: "",
-      nameRules: [(v: any) => !!v || "Nombre es requerido"],
-      horario: "Matutino",
-      cantidad: 1,
-      items: [1, 2, 3, 4],
-    };
-  },
-  methods: {
-    changeColor(nro_mesa: number) {
-      this.table = nro_mesa;
+    data() {
+        return {
+            e1: 1,
+            hoy: moment().format("YYYY-MM-DD"),
+            max: moment().add(30, "days").format("YYYY-MM-DD"),
+            fecha: moment().add(2, "days").format("YYYY-MM-DD"),
+            table: 0,
+            comentanio: "",
+            email: "",
+            emailRules: [(v: any) => !!v || "Email es requerido"],
+            name: "",
+            nameRules: [(v: any) => !!v || "Nombre es requerido"],
+            horario: "Matutino",
+            cantidad: 1,
+            items: [1, 2, 3, 4],
+        };
     },
-    fetchReservas() {
-      var hora;
-      if (this.horario == "Matutino") {
-        hora = "M";
-      } else {
-        hora = "N";
-      }
-      this.$store.dispatch("reservas/fetchReservas", {
-        fecha: this.fecha,
-        horario: hora,
-      });
-      this.e1 = 2;
+    methods: {
+        changeColor(nro_mesa: number) {
+            this.table = nro_mesa;
+        },
+        fetchReservas() {
+            var hora;
+            if (this.horario == "Matutino") {
+                hora = "M";
+            }
+            else {
+                hora = "N";
+            }
+            this.$store.dispatch("reservas/fetchReservas", {
+                fecha: this.fecha,
+                horario: hora,
+            });
+            this.e1 = 2;
+        },
+        completarReserva() {
+            this.$store.dispatch("reservas/postReserva", {
+                nro_mesa: this.table,
+                horario: this.horario == "Matutino" ? "M" : "N",
+                fecha: this.fecha,
+                confirmado: false,
+                comensales: this.cantidad,
+            });
+        },
+        volverSeleccion() {
+            this.e1 = 1;
+            this.table = 0;
+            this.$store.commit("reservas/RESET_MESAS");
+        },
     },
-    completarReserva() {
-      this.$store.dispatch("reservas/postReserva", {
-        nro_mesa: this.table,
-        horario: this.horario == 'Matutino'? 'M':'N',
-        fecha: this.fecha,
-        confirmado: false,
-        comensales: this.cantidad,
-      });
+    mounted() {
+        this.$store.dispatch("reservas/fetchMesas");
     },
-    volverSeleccion() {
-      this.e1 = 1;
-      this.table = 0;
-      this.$store.commit("reservas/RESET_MESAS")
+    computed: {
+        tables() {
+            return this.$store.getters["reservas/getMesas"];
+        },
+        reservations() {
+            return this.$store.getters["reservas/getReservas"];
+        },
+        user() {
+            return this.$store.getters["usuarios/getUser"];
+        },
     },
-  },
-  mounted() {
-    this.$store.dispatch("reservas/fetchMesas");
-  },
-  computed: {
-    tables() {
-      return this.$store.getters["reservas/getMesas"];
+    beforeMount() {
+        if (!this.user) {
+            this.$router.push("/login");
+        }
     },
-    reservations() {
-      return this.$store.getters["reservas/getReservas"];
-    },
-    user() {
-      return this.$store.getters["usuarios/getUser"];
-    },
-  },
-  beforeMount() {
-    if (!this.user) {
-      this.$router.push("/login");
-    }
-  },
+    components: { Header }
 });
 </script>
 <style lang="scss" scoped>

@@ -2,14 +2,16 @@
   <main class="homeView">
     <Carousel />
     <div class="reserva-section">
-      <v-btn plain elevation="0" block class="reserva-section__btn">
+      <v-btn plain elevation="0" to="/reservas" block class="reserva-section__btn">
         Reserva aquí
       </v-btn>
     </div>
-    <h2 class="ml-8 mt-2">Lo que dicen Nuestros Clientes</h2>
+    <BloqueInfoServicio :title="'Servicios'" :subtitle="'como estas'" 
+    :image="require('@/assets/images/casa-de-te.jpg')"/>
+    <h1 class="ml-8 mt-2 text-center">Lo que dicen Nuestros Clientes</h1>
     <v-carousel
       color="#CD7A7F"
-      :show-arrows="false"
+      
       cycle
       height="auto"
       class="my-2"
@@ -33,7 +35,9 @@
             </v-col>
             <v-col cols="12" sm="5" class="d-flex justify-center align-center">
               <div class="mx-auto d-flex flex-column">
-                <h2 class="text-center white--text my-2">{{comentario.name}}</h2>
+                <h2 class="text-center white--text my-2">
+                  {{ comentario.name }}
+                </h2>
                 <v-img
                   class="comentario__image"
                   :src="
@@ -55,23 +59,25 @@
         </div>
       </v-carousel-item>
     </v-carousel>
+    <BloqueInfoServicio :inverted="true" :title="'Servicios'" :subtitle="'como estas'" 
+    :image="require('@/assets/images/casa-de-te.jpg')"/>
   </main>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
 import Carousel from "@/components/Carousel.vue";
+import BloqueInfoServicio from "@/components/BloqueInfoServicio.vue";
 
 export default Vue.extend({
   name: "HomeView",
 
   components: {
     Carousel,
+    BloqueInfoServicio,
   },
   data() {
-    return{
-
-    }
+    return {};
   },
   computed: {
     comentarios() {

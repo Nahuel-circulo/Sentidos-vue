@@ -162,15 +162,15 @@
         >
       </div>
       <div class="navbar__menu--desktop__sm" v-if="isLoaded">
-        <a v-if="rrss.facebook_link" :href="rrss.facebook_link" target="_blank">
-          <img src="/img/icons/facebook.png" alt="Facebook" />
+        <a style="text-decoration:none;" v-if="rrss.facebook_link" :href="rrss.facebook_link" target="_blank">
+          <v-icon color="white">mdi-facebook</v-icon>
         </a>
-        <a
+        <a style="text-decoration:none;"
           v-if="rrss.instagram_link"
           :href="rrss.instagram_link"
           target="_blank"
         >
-          <img src="/img/icons/instagram.png" alt="Instagram" />
+          <v-icon color="white">mdi-instagram</v-icon>
         </a>
       </div>
     </div>
@@ -187,15 +187,15 @@ export default Vue.extend({
   data() {
     return {
       rrss: {
-        facebook_link: "",
-        instagram_link: "",
+        facebook_link: "https://facebook.com",
+        instagram_link: "https://instagram.com",
         mail: "",
         phone: 0,
         office_hours: "",
       },
       menuIsActive: false,
       serviciosIsActive: false,
-      isLoaded: false,
+      isLoaded: true,
     };
   },
   methods: {
@@ -221,13 +221,13 @@ export default Vue.extend({
       this.menuIsActive = false;
     },
     user(newValue, oldValue) {
-      console.log("hace algo");
+
       if (newValue) {
         this.$router.push("/");
       }
 
       if (oldValue) {
-        console.log(oldValue);
+
         this.$router.push("/");
       }
     },
