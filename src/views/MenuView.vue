@@ -46,7 +46,7 @@
             sm="6"
             md="4"
             lg="3"
-            v-for="food in comidas"
+            v-for="food in tes"
             :key="food.id"
           >
             <ProductCard
@@ -73,7 +73,7 @@
             sm="6"
             md="4"
             lg="3"
-            v-for="food in tes"
+            v-for="food in comidas"
             :key="food.id"
           >
             <ProductCard

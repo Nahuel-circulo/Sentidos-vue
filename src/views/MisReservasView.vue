@@ -6,7 +6,7 @@
       :image="require('@/assets/images/mis-reservas.jpg')"
     />
     <v-container class="my-10">
-      <div class="formulario-container" >
+      <div class="formulario-container">
         <v-data-iterator
           :items="mis_reservas"
           hide-default-footer
@@ -27,7 +27,9 @@
                     <th class="text-left text-body-1">Fecha</th>
                     <th class="text-left text-body-1">Horario</th>
                     <th class="text-left text-body-1">Numero de mesa</th>
-                    <th class="text-left text-body-1">Cantidad de Comensales</th>
+                    <th class="text-left text-body-1">
+                      Cantidad de Comensales
+                    </th>
                     <th class="text-left text-body-1">Confirmar</th>
                   </tr>
                 </thead>
@@ -54,9 +56,10 @@
                       {{ item.comensales }}
                     </td>
                     <td class="comercios_adheridos__table direccion">
-                      <v-btn color="#CD7A7F" v-if="!item.confirmado" text> Pagar </v-btn>
-                      <p v-else style="color:#CD7A7F;">PAGADO</p>
-                      
+                      <v-btn color="#CD7A7F" v-if="!item.confirmado" text>
+                        Pagar
+                      </v-btn>
+                      <p v-else style="color: #cd7a7f">PAGADO</p>
                     </td>
                   </tr>
                 </tbody>
@@ -71,6 +74,32 @@
       subtitle="Contanos tu experiencia y calificanos"
       :image="require('@/assets/images/opinion.png')"
     />
+    <v-container>
+      <div style="max-width: 500px; margin: 0 auto">
+        <v-form v-model="valid">
+          <h3>Tu opinión</h3>
+          <v-textarea
+            v-model="comment"
+            label="Tu comentario"
+            counter="120"
+            maxlength="120"
+            single-line
+          ></v-textarea>
+          <h3>Puntuación</h3>
+          <v-rating
+            style="margin: 0 auto"
+            hover
+            length="5"
+            size="54"
+            color="#BB8A00"
+            :value="rating"
+          ></v-rating>
+          <v-btn text color="#CD7A7F">
+            Enviar
+          </v-btn>
+        </v-form>
+      </div>
+    </v-container>
   </main>
 </template>
 
@@ -81,6 +110,9 @@ export default Vue.extend({
   data() {
     return {
       hola: 0,
+      comment: "",
+      valid: false,
+      rating: 0,
     };
   },
   computed: {

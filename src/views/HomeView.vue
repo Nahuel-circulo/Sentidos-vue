@@ -2,17 +2,25 @@
   <main class="homeView">
     <Carousel />
     <div class="reserva-section">
-      <v-btn plain elevation="0" to="/reservas" block class="reserva-section__btn">
+      <v-btn
+        plain
+        elevation="0"
+        to="/reservas"
+        block
+        class="reserva-section__btn"
+      >
         Reserva aquí
       </v-btn>
     </div>
-    <BloqueInfoServicio :title="'Nosotros'" :subtitle="'texto texto'" 
-    :image="require('@/assets/images/casa-de-te.jpg')"/>
+    <BloqueInfoServicio
+      :title="'Nosotros'"
+      :subtitle="'texto texto'"
+      :image="require('@/assets/images/casa-de-te.jpg')"
+    />
 
     <h1 class="ml-8 mt-2 text-center">Lo que dicen Nuestros Clientes</h1>
     <v-carousel
       color="#CD7A7F"
-      
       cycle
       height="auto"
       class="my-2"
@@ -49,6 +57,7 @@
                 >
                 </v-img>
                 <v-rating
+                  readonly
                   color="#BB8A00"
                   v-model="comentario.calification"
                   class="ma-2"
@@ -60,8 +69,12 @@
         </div>
       </v-carousel-item>
     </v-carousel>
-    <BloqueInfoServicio :inverted="true" :title="'Métodos de pago'" :list="metodosPago"  
-    :image="require('@/assets/images/pagos.jpg')"/>
+    <BloqueInfoServicio
+      :inverted="true"
+      :title="'Métodos de pago'"
+      :list="metodosPago"
+      :image="require('@/assets/images/pagos.jpg')"
+    />
   </main>
 </template>
 
@@ -79,7 +92,13 @@ export default Vue.extend({
   },
   data() {
     return {
-      metodosPago:["Efectivo","Débito","Crédito","Mercado Pago","Transferencia Bancaria"]
+      metodosPago: [
+        "Efectivo",
+        "Débito",
+        "Crédito",
+        "Mercado Pago",
+        "Transferencia Bancaria",
+      ],
     };
   },
   computed: {
