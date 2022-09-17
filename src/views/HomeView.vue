@@ -6,8 +6,9 @@
         Reserva aquí
       </v-btn>
     </div>
-    <BloqueInfoServicio :title="'Servicios'" :subtitle="'como estas'" 
+    <BloqueInfoServicio :title="'Nosotros'" :subtitle="'texto texto'" 
     :image="require('@/assets/images/casa-de-te.jpg')"/>
+
     <h1 class="ml-8 mt-2 text-center">Lo que dicen Nuestros Clientes</h1>
     <v-carousel
       color="#CD7A7F"

@@ -14,37 +14,64 @@ export interface Food {
 }
 
 export interface MenuStateInterface {
-    productos: Food[]
+    comidas: Food[]
+    tes: Food[]
 }
 
 const state = (): MenuStateInterface => ({
-    productos: []
+    comidas: [],
+    tes: []
 })
 
 // getters
 const getters: GetterTree<MenuStateInterface, any> = {
-    getProductos: (state, getters, rootState) => {
-        return state.productos
+    getComidas: (state, getters, rootState) => {
+        return state.comidas
+    },
+    getTes: (state, getters, rootState) => {
+        return state.tes
     },
 
 }
 
 // actions
 const actions: ActionTree<MenuStateInterface, any> = {
-    fetchProductos: async ({ commit, state }, products) => {
-        const { data } = await api_django.get('/food/')
-        state.productos = data.results
-        console.log(data.results)
-        commit('SET_PRODUCTOS',data.results)
+    fetchComidas: async ({ commit, state }, products) => {
+        const { data } = await api_django.get('/food/', {
+            params: {
+                category: products
+            }
+        })
+
+
+        commit('SET_COMIDAS', data.results)
+
+
     },
+    fetchTes: async ({ commit, state }, products) => {
+        const { data } = await api_django.get('/food/', {
+            params: {
+                category: products
+            }
+        })
+
+
+        commit('SET_TES', data.results)
+
+
+    },
+
 
 
 }
 
 // mutations
 const mutations: MutationTree<MenuStateInterface> = {
-    SET_PRODUCTOS(state, payload) {
-        state.productos = payload
+    SET_COMIDAS(state, payload) {
+        state.comidas = payload
+    },
+    SET_TES(state, payload) {
+        state.tes = payload
     }
 }
 

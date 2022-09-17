@@ -14,6 +14,7 @@ export interface Mesas {
 
 export interface Reservas {
     id: number;
+    user_id:number;
     nro_mesa: number;
     horario: string;
     fecha: String;
@@ -24,11 +25,15 @@ export interface Reservas {
 export interface MenuStateInterface {
     mesas: Mesas[],
     reservas: Reservas[]
+    misReservas: Reservas[],
+    loading: Boolean
 }
 
 const state = (): MenuStateInterface => ({
     mesas: [],
-    reservas: []
+    reservas: [],
+    misReservas:[],
+    loading: false
 })
 
 // getters
@@ -39,6 +44,12 @@ const getters: GetterTree<MenuStateInterface, any> = {
     getReservas: (state, getters, rootState) => {
         return state.reservas
     },
+    getMisReservas:(state)=>{
+        return state.misReservas
+    },
+    getReservasLoadin:(state)=>{
+        return state.loading
+    }
 
 }
 
@@ -74,6 +85,16 @@ const actions: ActionTree<MenuStateInterface, any> = {
             console.log(error)
         }
 
+    },
+    fetchMisReservas: async ({commit},payload:number)=>{
+        commit('SET_LOADING', true)
+        const { data } = await api_django.get('/reservation/', {
+            params: {
+                user_id:payload
+            }
+        })
+        commit('SET_MIS_RESERVAS', data.results)
+        commit('SET_LOADING', false)
     }
 
 
@@ -112,6 +133,12 @@ const mutations: MutationTree<MenuStateInterface> = {
             return {...mesa,reservado:false}
         })
         state.mesas = mesas
+    },
+    SET_MIS_RESERVAS(state,payload:Array<Reservas>){
+        state.misReservas = payload
+    },
+    SET_LOADING(state ,payload:boolean){
+        state.loading = payload
     }
 }
 

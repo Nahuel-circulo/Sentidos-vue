@@ -3,7 +3,7 @@
     <v-img v-if="image" :src="image"></v-img>
     <v-card-text>
       <h4 class="product-card__title">{{ title }}</h4>
-      <h4 class="product-card__price">{{ price }}</h4>
+      <h4 class="product-card__price">$ {{ price }}</h4>
     </v-card-text>
     <v-card-actions>
       <v-btn text small class="product-card__btn" @click="show = true">
