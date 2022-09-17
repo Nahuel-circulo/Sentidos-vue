@@ -54,7 +54,9 @@
           <v-stepper-content step="2">
             <!-- step 2 -->
             <div class="step py-8">
-              <v-row class="pa-0 ma-0 tables__container">
+              <p>Por favor seleccione su mesa</p>
+<!--               <p><span class="">Reservado</span> <span>Disponible</span> <span>Su selccion</span></p>
+ -->              <v-row class="pa-0 ma-0 tables__container">
                 <v-col
                   class="d-flex justify-center"
                   cols="3"
@@ -63,7 +65,9 @@
                 >
                   <v-btn
                     class="icon-color"
-                    :color="item.reservado ? '#CD7A7F' : '#545454'"
+                    :color="table == item.nro_mesa ? '#CD7A7F' : '#1A2223'"
+                    :disabled="item.reservado"
+                    @click="changeColor(item.nro_mesa)"
                   >
                     {{ item.id }}
                   </v-btn>
@@ -71,11 +75,15 @@
               </v-row>
             </div>
 
-            <v-btn color="#CD7A7F white--text" @click="e1 = 3">
+            <v-btn
+              color="#CD7A7F white--text"
+              :disabled="table == 0"
+              @click="e1=3"
+            >
               Continuar
             </v-btn>
 
-            <v-btn text @click="e1 = 1"> Atras </v-btn>
+            <v-btn text @click="volverSeleccion"> Atras </v-btn>
           </v-stepper-content>
 
           <v-stepper-content step="3">
@@ -134,7 +142,7 @@
                 label="Comentario (opcional)"
               ></v-textarea>
             </div>
-            <v-btn color="#CD7A7F white--text" @click="e1 = 1">
+            <v-btn color="#CD7A7F white--text" @click="completarReserva">
               Continuar
             </v-btn>
 
@@ -142,161 +150,20 @@
           </v-stepper-content>
         </v-stepper-items>
       </v-stepper>
-      {{ reservations }}
     </v-container>
   </main>
 </template>
 
-<!-- <script lang="ts">
-import { defineComponent, ref } from "vue";
-
-import moment from "moment";
-import ReservasStepper from "@/components/ReservasStepper.vue";
-export default defineComponent({
-  setup() {
-    const e1 = ref(1);
-    const hoy = moment().format("YYYY-MM-DD");
-    const fecha = ref();
-    const table = ref(0);
-    const comentario = ref();
-    const comentarioRules = [" "];
-    const email = ref();
-    const emailRules = [(v: any) => !!v || "Email es requerido"];
-    const name = ref();
-    const nameRules = [(v: any) => !!v || "Nombre es requerido"];
-    const horario = ref("Matutino");
-    const cantidad = ref(1);
-    const items = [1, 2, 3, 4];
-    const tables = ref([
-      {
-        position: 1,
-        reservado: false,
-      },
-      {
-        position: 2,
-        reservado: false,
-      },
-      {
-        position: 3,
-        reservado: false,
-      },
-      {
-        position: 4,
-        reservado: false,
-      },
-      {
-        position: 5,
-        reservado: false,
-      },
-      {
-        position: 6,
-        reservado: false,
-      },
-      {
-        position: 7,
-        reservado: false,
-      },
-      {
-        position: 8,
-        reservado: false,
-      },
-      {
-        position: 9,
-        reservado: false,
-      },
-      {
-        position: 10,
-        reservado: false,
-      },
-      {
-        position: 11,
-        reservado: false,
-      },
-      {
-        position: 12,
-        reservado: false,
-      },
-      {
-        position: 13,
-        reservado: false,
-      },
-      {
-        position: 14,
-        reservado: false,
-      },
-      {
-        position: 15,
-        reservado: false,
-      },
-      {
-        position: 16,
-        reservado: false,
-      },
-      {
-        position: 17,
-        reservado: false,
-      },
-      {
-        position: 18,
-        reservado: false,
-      },
-      {
-        position: 19,
-        reservado: false,
-      },
-      {
-        position: 20,
-        reservado: false,
-      },
-    ]);
-    const changeColor = (position: number) => {
-      const index = tables.value.findIndex(
-        (table) => table.position === position
-      );
-      if (table.value == 0) {
-        tables.value[index].reservado = !tables.value[index].reservado;
-        table.value = position;
-      } else if (table.value == position) {
-        table.value = 0;
-        tables.value[index].reservado = !tables.value[index].reservado;
-      }
-    };
-    return {
-      changeColor,
-      tables,
-      table,
-      name,
-      nameRules,
-      email,
-      emailRules,
-      comentario,
-      comentarioRules,
-      cantidad,
-      items,
-      fecha,
-      hoy,
-      horario,
-      e1,
-    };
-  },
-  components: { ReservasStepper },
-});
-</script> -->
-
 <script lang="ts">
 import Vue from "vue";
 import moment from "moment";
-import ReservasStepper from "@/components/ReservasStepper.vue";
 
 export default Vue.extend({
-  components: {
-    ReservasStepper,
-  },
   data() {
     return {
       e1: 1,
       hoy: moment().format("YYYY-MM-DD"),
-      fecha: "",
+      fecha: moment().add(2, "days").format("YYYY-MM-DD"),
       table: 0,
       comentanio: "",
       email: "",
@@ -309,7 +176,9 @@ export default Vue.extend({
     };
   },
   methods: {
-    changeColor() {},
+    changeColor(nro_mesa: number) {
+      this.table = nro_mesa;
+    },
     fetchReservas() {
       var hora;
       if (this.horario == "Matutino") {
@@ -322,6 +191,20 @@ export default Vue.extend({
         horario: hora,
       });
       this.e1 = 2;
+    },
+    completarReserva() {
+      this.$store.dispatch("reservas/postReserva", {
+        nro_mesa: this.table,
+        horario: this.horario == 'Matutino'? 'M':'N',
+        fecha: this.fecha,
+        confirmado: false,
+        comensales: this.cantidad,
+      });
+    },
+    volverSeleccion() {
+      this.e1 = 1;
+      this.table = 0;
+      this.$store.commit("reservas/RESET_MESAS")
     },
   },
   mounted() {
@@ -340,7 +223,7 @@ export default Vue.extend({
   },
   beforeMount() {
     if (!this.user) {
-      this.$router.push("/login")
+      this.$router.push("/login");
     }
   },
 });
