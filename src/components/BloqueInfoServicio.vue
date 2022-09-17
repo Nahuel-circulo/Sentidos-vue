@@ -9,8 +9,8 @@
       <p v-if="subtitle">{{ subtitle }}</p>
 
       <ul v-if="list" class="list">
-        <li v-for="item in list" :key="item.id" class="list-item">
-          {{ item.name }}
+        <li v-for="item in list" :key="item" class="list-item">
+          {{ item}}
         </li>
       </ul>
 

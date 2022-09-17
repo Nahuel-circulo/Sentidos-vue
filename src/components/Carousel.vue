@@ -13,7 +13,7 @@
               :src="require('../assets/Sentidos_text.svg')"
               class="home-carousel__container__item-brand"
             ></v-img>
-            <h3 class="home-carousel__container__item-title">
+            <!-- <h3 class="home-carousel__container__item-title">
               Conocé nuestros servicios
             </h3>
             <router-link
@@ -21,7 +21,7 @@
               class="home-carousel__container__item-content"
             >
               Eventos
-            </router-link>
+            </router-link> -->
           </div>
         </div>
       </v-img>

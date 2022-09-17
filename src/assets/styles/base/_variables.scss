@@ -1,7 +1,7 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,400;0,700;1,400;1,700&display=swap');
 
-
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap');
 
 $sentidos-black:#1A2223;
 $sentidos-light-gray: #E9EAED;
@@ -27,7 +27,8 @@ $colors: (
   }
 }
 
-$font-merriweather: 'Merriweather', serif;
+$font-merriweather: 'Montserrat', sans-serif;
+/* $font-merriweather: 'Merriweather', serif; */
 
 .font-merriweather {
   font-family: $font-merriweather !important;

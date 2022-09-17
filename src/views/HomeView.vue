@@ -59,7 +59,7 @@
         </div>
       </v-carousel-item>
     </v-carousel>
-    <BloqueInfoServicio :inverted="true" :title="'Métodos de pago'" :subtitle="'como estas'" 
+    <BloqueInfoServicio :inverted="true" :title="'Métodos de pago'" :list="metodosPago"  
     :image="require('@/assets/images/pagos.jpg')"/>
   </main>
 </template>
@@ -77,7 +77,9 @@ export default Vue.extend({
     BloqueInfoServicio,
   },
   data() {
-    return {};
+    return {
+      metodosPago:["Efectivo","Débito","Crédito","Mercado Pago","Transferencia Bancaria"]
+    };
   },
   computed: {
     comentarios() {
