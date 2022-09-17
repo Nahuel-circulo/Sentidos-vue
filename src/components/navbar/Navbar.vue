@@ -53,7 +53,7 @@
       <div class="navbar__hamburguer">
         <button @click="menuToggle(true)">
           <span class="white--text" v-if="user">{{ user.name }}</span>
-          <v-icon color="white" small>mdi-account</v-icon>
+          <v-icon color="white" >mdi-menu</v-icon>
         </button>
       </div>
     </div>
@@ -118,8 +118,8 @@
         <navbar-menu-link v-if="!user" type="NuxtLink" url="/login">
           Ingresar/Registrarse
         </navbar-menu-link>
-        <navbar-menu-link type="NuxtLink" url="/novedades">
-          Novedades
+        <navbar-menu-link v-if="user" type="NuxtLink" url="/mis-reservas">
+          Mis Reservas
         </navbar-menu-link>
         <navbar-menu-link type="NuxtLink" url="/contacto">
           Contacto
@@ -151,8 +151,8 @@
           class="navbar__menu--desktop__links__link"
           >Ingresar/Registrarse</router-link
         >
-        <router-link to="/novedades" class="navbar__menu--desktop__links__link"
-          >Novedades</router-link
+        <router-link v-if="user" to="/mis-reservas" class="navbar__menu--desktop__links__link"
+          >Mis Reservas</router-link
         >
         <router-link to="/contacto" class="navbar__menu--desktop__links__link"
           >Contacto</router-link

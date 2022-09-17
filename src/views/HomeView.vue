@@ -59,8 +59,8 @@
         </div>
       </v-carousel-item>
     </v-carousel>
-    <BloqueInfoServicio :inverted="true" :title="'Servicios'" :subtitle="'como estas'" 
-    :image="require('@/assets/images/casa-de-te.jpg')"/>
+    <BloqueInfoServicio :inverted="true" :title="'Métodos de pago'" :subtitle="'como estas'" 
+    :image="require('@/assets/images/pagos.jpg')"/>
   </main>
 </template>
 
