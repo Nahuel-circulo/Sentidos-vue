@@ -1,5 +1,6 @@
 <template>
   <main class="eventosView">
+    <Header title="Eventos" :image="require('@/assets/images/eventos.jpg')" subtitle="Organiza tu evento junto a nosotros"/>
     <div class="eventosView__header">
       <h1 class="eventosView__header-title">
         EVENTOS CORPORATIVOS Y SALONES PRIVADOS
@@ -55,20 +56,21 @@
 
 <script lang="ts">
 import { defineComponent, ref } from "vue";
+import Header from "@/components/Header.vue";
 
 export default defineComponent({
-  setup() {
-    const overlay = ref(false);
-    const viewImageOverlay = () => {
-      console.log("muestra");
-      overlay.value = !overlay.value;
-    };
-
-    return {
-      overlay,
-      viewImageOverlay,
-    };
-  },
+    setup() {
+        const overlay = ref(false);
+        const viewImageOverlay = () => {
+            console.log("muestra");
+            overlay.value = !overlay.value;
+        };
+        return {
+            overlay,
+            viewImageOverlay,
+        };
+    },
+    components: { Header }
 });
 </script>
 
