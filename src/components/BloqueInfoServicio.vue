@@ -58,7 +58,7 @@ export default defineComponent({
     },
     subtitle: {
       type: String,
-      required: true,
+      required: false,
     },
     list: {
       type: Array,
