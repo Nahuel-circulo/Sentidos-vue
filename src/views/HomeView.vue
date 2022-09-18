@@ -18,7 +18,7 @@
       :image="require('@/assets/images/casa-de-te.jpg')"
     />
 
-    <h1 class="ml-8 mt-2 text-center">Lo que dicen Nuestros Clientes</h1>
+    <h1 class=" mt-2 text-center  white--text" style="background-color:#BB8A00;">Lo que dicen Nuestros Clientes</h1>
     <v-carousel
       color="#CD7A7F"
       cycle
