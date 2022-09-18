@@ -31,7 +31,6 @@ const getters: GetterTree<MenuStateInterface, any> = {
     getTes: (state, getters, rootState) => {
         return state.tes
     },
-
 }
 
 // actions
@@ -42,11 +41,7 @@ const actions: ActionTree<MenuStateInterface, any> = {
                 category: products
             }
         })
-
-
         commit('SET_COMIDAS', data.results)
-
-
     },
     fetchTes: async ({ commit, state }, products) => {
         const { data } = await api_django.get('/food/', {
@@ -54,8 +49,6 @@ const actions: ActionTree<MenuStateInterface, any> = {
                 category: products
             }
         })
-
-
         commit('SET_TES', data.results)
 
 

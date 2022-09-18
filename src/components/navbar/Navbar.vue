@@ -121,9 +121,9 @@
         <navbar-menu-link v-if="user" type="NuxtLink" url="/mis-reservas">
           Mis Reservas
         </navbar-menu-link>
-        <navbar-menu-link type="NuxtLink" url="/contacto">
+        <!-- <navbar-menu-link type="NuxtLink" url="/contacto">
           Contacto
-        </navbar-menu-link>
+        </navbar-menu-link> -->
         <v-btn
           @click="cerrarSesion"
           v-if="user"
@@ -154,9 +154,9 @@
         <router-link v-if="user" to="/mis-reservas" class="navbar__menu--desktop__links__link"
           >Mis Reservas</router-link
         >
-        <router-link to="/contacto" class="navbar__menu--desktop__links__link"
+        <!-- <router-link to="/contacto" class="navbar__menu--desktop__links__link"
           >Contacto</router-link
-        >
+        > -->
         <v-btn @click="cerrarSesion" v-if="user" text color="white"
           >Cerrar Sesion</v-btn
         >
@@ -171,6 +171,13 @@
           target="_blank"
         >
           <v-icon color="white">mdi-instagram</v-icon>
+        </a>
+        <a style="text-decoration:none;"
+          v-if="rrss.email"
+          :href="`mailto:${rrss.email}`"
+          target="_blank"
+        >
+          <v-icon color="white">mdi-email</v-icon>
         </a>
       </div>
     </div>
@@ -189,6 +196,7 @@ export default Vue.extend({
       rrss: {
         facebook_link: "https://facebook.com",
         instagram_link: "https://instagram.com",
+        email:"sentidosteahouse@gmail.com",
         mail: "",
         phone: 0,
         office_hours: "",
