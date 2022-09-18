@@ -168,6 +168,14 @@
         </v-stepper>
       </v-container>
     </div>
+    <v-dialog transition="dialog-bottom-transition" max-width="600" v-model="alert">
+      
+      <v-alert v-model="alert" dismissible :type="reservaStatus.type">
+        {{reservaStatus.message}}
+      </v-alert>
+      <v-btn v-if="reservaStatus.type == 'success'" to="/mis-reservas"> Ir a mis reservas</v-btn>
+    
+  </v-dialog>
   </main>
 </template>
 
@@ -180,6 +188,7 @@ export default Vue.extend({
   data() {
     return {
       e1: 1,
+      alert:false,
       hoy: moment().format("YYYY-MM-DD"),
       max: moment().add(30, "days").format("YYYY-MM-DD"),
       fecha: moment().add(2, "days").format("YYYY-MM-DD"),
@@ -218,6 +227,7 @@ export default Vue.extend({
         fecha: this.fecha,
         confirmado: false,
         comensales: this.cantidad,
+        user_id:this.user.id
       });
     },
     volverSeleccion() {
@@ -239,10 +249,20 @@ export default Vue.extend({
     user() {
       return this.$store.getters["usuarios/getUser"];
     },
+    reservaStatus(){
+      return this.$store.getters['reservas/getReservaStatus']
+    }
   },
   beforeMount() {
     if (!this.user) {
       this.$router.push("/login");
+    }
+  },
+  watch: {
+    reservaStatus(newValue,oldValue){
+      if (newValue) {
+        this.alert = true
+      }
     }
   },
   components: { Header },

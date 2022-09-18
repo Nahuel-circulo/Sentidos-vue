@@ -14,7 +14,7 @@ export interface Mesas {
 
 export interface Reservas {
     id: number;
-    user_id:number;
+    user_id: number;
     nro_mesa: number;
     horario: string;
     fecha: String;
@@ -26,14 +26,21 @@ export interface MenuStateInterface {
     mesas: Mesas[],
     reservas: Reservas[]
     misReservas: Reservas[],
-    loading: Boolean
+    loading: Boolean,
+    reservaStatus: ReservaStatus
+}
+
+export interface ReservaStatus {
+    type: String,
+    message: String
 }
 
 const state = (): MenuStateInterface => ({
     mesas: [],
     reservas: [],
-    misReservas:[],
-    loading: false
+    misReservas: [],
+    loading: false,
+    reservaStatus: { message: '', type: '' }
 })
 
 // getters
@@ -44,11 +51,14 @@ const getters: GetterTree<MenuStateInterface, any> = {
     getReservas: (state, getters, rootState) => {
         return state.reservas
     },
-    getMisReservas:(state)=>{
+    getMisReservas: (state) => {
         return state.misReservas
     },
-    getReservasLoadin:(state)=>{
+    getReservasLoadin: (state) => {
         return state.loading
+    },
+    getReservaStatus: (state) => {
+        return state.reservaStatus
     }
 
 }
@@ -74,23 +84,26 @@ const actions: ActionTree<MenuStateInterface, any> = {
         try {
 
             const { data } = await api_django.post('/reservation/', {
-                'nro_mesa':payload.nro_mesa,
-                'horario':payload.horario,
-                'fecha':payload.fecha,
-                'confirmado':payload.confirmado,
-                'comensales':payload.comensales,
+                'nro_mesa': payload.nro_mesa,
+                'horario': payload.horario,
+                'fecha': payload.fecha,
+                'confirmado': payload.confirmado,
+                'comensales': payload.comensales,
+                'user_id':payload.user_id
             })
-            console.log(data)
+
+            commit('SET_RESERVA_STATUS',{ type: 'success', message: 'Reserva Relizada con exito' })
         } catch (error) {
             console.log(error)
+            commit('SET_RESERVA_STATUS', { type: 'error', message: 'Ocurrió un error al relizar la reserva' })
         }
 
     },
-    fetchMisReservas: async ({commit},payload:number)=>{
+    fetchMisReservas: async ({ commit }, payload: number) => {
         commit('SET_LOADING', true)
         const { data } = await api_django.get('/reservation/', {
             params: {
-                user_id:payload
+                user_id: payload
             }
         })
         commit('SET_MIS_RESERVAS', data.results)
@@ -111,16 +124,15 @@ const mutations: MutationTree<MenuStateInterface> = {
 
     SET_RESERVAS(state, payload: Array<Reservas>) {
         if (payload.length) {
-            console.log("ingresa")
             let mesasReservadas: Array<Mesas> = [...state.mesas]
             payload.forEach((reserva) => {
 
-                mesasReservadas.forEach((mesa,i) => {
+                mesasReservadas.forEach((mesa, i) => {
                     if (mesa.nro_mesa == reserva.nro_mesa) {
                         const mesaReservada = { ...mesa, reservado: true }
-                        mesasReservadas[i]= mesaReservada 
+                        mesasReservadas[i] = mesaReservada
                     } else {
-                        mesasReservadas[i]= mesa
+                        mesasReservadas[i] = mesa
                     }
                 })
 
@@ -128,17 +140,20 @@ const mutations: MutationTree<MenuStateInterface> = {
             state.mesas = mesasReservadas
         }
     },
-    RESET_MESAS(state){
-        let mesas = state.mesas.map((mesa)=>{
-            return {...mesa,reservado:false}
+    RESET_MESAS(state) {
+        let mesas = state.mesas.map((mesa) => {
+            return { ...mesa, reservado: false }
         })
         state.mesas = mesas
     },
-    SET_MIS_RESERVAS(state,payload:Array<Reservas>){
+    SET_MIS_RESERVAS(state, payload: Array<Reservas>) {
         state.misReservas = payload
     },
-    SET_LOADING(state ,payload:boolean){
+    SET_LOADING(state, payload: boolean) {
         state.loading = payload
+    },
+    SET_RESERVA_STATUS(state, payload: ReservaStatus) {
+        state.reservaStatus = payload
     }
 }
 

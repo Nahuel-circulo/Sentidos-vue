@@ -157,7 +157,6 @@ export default Vue.extend({
             email: this.email,
             password: this.password,
           });
-          console.log(data);
           this.usuario = data.results;
         } catch (error) {
           this.sended = true;
