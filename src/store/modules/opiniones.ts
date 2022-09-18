@@ -30,7 +30,11 @@ const getters: GetterTree<MenuStateInterface, any> = {
 // actions
 const actions: ActionTree<MenuStateInterface, any> = {
     fetchOpiniones: async ({ commit, state }, products) => {
-        const { data } = await api_django.get('/opinion/')
+        const { data } = await api_django.get('/opinion/',{
+            params:{
+                limit:3
+            }
+        })
         state.opiniones = data.results
         console.log(data.results)
         commit('SET_OPINIONES',data.results)

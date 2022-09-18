@@ -163,7 +163,7 @@ export default Vue.extend({
     },
     async pagar(idMesa: number) {
       try {
-        const { data } = await api_django.put(`/reservation/${idMesa}`, {
+        const { data } = await api_django.put(`/reservation/${idMesa}/`, {
           nro_mesa: 2,
           horario: "M",
           fecha: "2022-09-20",

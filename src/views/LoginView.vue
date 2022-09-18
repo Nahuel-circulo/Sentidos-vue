@@ -82,6 +82,13 @@
         </div>
       </div>
     </div>
+    <v-dialog transition="dialog-bottom-transition" max-width="600" v-model="sended">
+      
+      <v-alert v-model="sended" dismissible type="error">
+        Ya existe un usuario con ese email
+      </v-alert>
+    
+  </v-dialog>
   </div>
 </template>
 
@@ -95,6 +102,7 @@ export default Vue.extend({
       active: false,
       registerValid: false,
       loginValid: false,
+      sended:false,
       name: "",
       password: "",
       passwordLogin: "",
@@ -152,7 +160,8 @@ export default Vue.extend({
           console.log(data);
           this.usuario = data.results;
         } catch (error) {
-          alert(`Ya existe un usuario con email ${this.email}`)
+          this.sended = true;
+
         }
       } else {
         this.$refs.form.validate();
