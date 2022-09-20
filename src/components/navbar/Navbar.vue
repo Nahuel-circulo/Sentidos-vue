@@ -15,7 +15,7 @@
           <router-link to="/">Inicio</router-link>
         </div>
         <div class="navbar__links__link">
-          <router-link to="/menu">Menu</router-link>
+          <router-link to="/menu">Menú</router-link>
         </div>
         <div class="navbar__links__link">
           <router-link to="/eventos">Eventos</router-link>
@@ -158,7 +158,7 @@
           >Contacto</router-link
         > -->
         <v-btn @click="cerrarSesion" v-if="user" text color="white"
-          >Cerrar Sesion</v-btn
+          >Cerrar Sesión</v-btn
         >
       </div>
       <div class="navbar__menu--desktop__sm" v-if="isLoaded">

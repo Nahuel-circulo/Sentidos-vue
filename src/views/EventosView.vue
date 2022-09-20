@@ -15,7 +15,7 @@
             Espacios y salones exclusivos ideales para realizar eventos
             corporativos, comidas privadas mientras se disfruta de la mejor
             comida de Argentina. Organizamos comidas exclusivas para grupos,
-            eventos corporativos y sociales con capacidad hasta 120. Diseñamos
+            eventos corporativos y sociales con capacidad hasta 120 personas. Diseñamos
             menús para cada ocasión con los mejores aperitivos, deliciosas
             guarniciones y riquísimos postres artesanales.
           </p>

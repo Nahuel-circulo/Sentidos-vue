@@ -66,7 +66,7 @@
                 <div class=" my-2 d-flex flex-row justify-space-around">
                   <div style="background-color:#1A2223;" class="px-4 py-2 white--text">Reservado</div>
                   <div style="background-color:#E9EAED;" class="px-4 py-2 ">Disponible</div>
-                  <div style="background-color:#CD7A7F;" class="px-4 py-2 white--text">Su seleccion</div>
+                  <div style="background-color:#CD7A7F;" class="px-4 py-2 white--text">Su selección</div>
                 </div>
                 <v-row class="pa-0 ma-0 tables__container">
                   <v-col
@@ -95,7 +95,7 @@
                 Continuar
               </v-btn>
 
-              <v-btn text @click="volverSeleccion"> Atras </v-btn>
+              <v-btn text @click="volverSeleccion"> Atrás </v-btn>
             </v-stepper-content>
 
             <v-stepper-content step="3">
@@ -162,7 +162,7 @@
                 Continuar
               </v-btn>
 
-              <v-btn text @click="e1 = 2"> Atras </v-btn>
+              <v-btn text @click="e1 = 2"> Atrás </v-btn>
             </v-stepper-content>
           </v-stepper-items>
         </v-stepper>

@@ -2,7 +2,7 @@
   <main>
     <Header
       title="Mis Reservas"
-      subtitle="Vizualiza tus reservas y confirmalas para no perderlas"
+      subtitle="Visualiza tus reservas y confirmalas para no perderlas"
       :image="require('@/assets/images/mis-reservas.jpg')"
     />
     <v-container class="my-10">
@@ -26,7 +26,7 @@
                   <tr>
                     <th class="text-left text-body-1">Fecha</th>
                     <th class="text-left text-body-1">Horario</th>
-                    <th class="text-left text-body-1">Numero de mesa</th>
+                    <th class="text-left text-body-1">Número de mesa</th>
                     <th class="text-left text-body-1">
                       Cantidad de Comensales
                     </th>
