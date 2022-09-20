@@ -78,17 +78,21 @@
             No estas registrado?
             <v-btn text small @click="cambiar">Registrarse</v-btn>
           </p>
-          <p v-if="errorMessageLogin" class="red--text">{{errorMessageLogin}}</p>
+          <p v-if="errorMessageLogin" class="red--text">
+            {{ errorMessageLogin }}
+          </p>
         </div>
       </div>
     </div>
-    <v-dialog transition="dialog-bottom-transition" max-width="600" v-model="sended">
-      
+    <v-dialog
+      transition="dialog-bottom-transition"
+      max-width="600"
+      v-model="sended"
+    >
       <v-alert v-model="sended" dismissible type="error">
         Ya existe un usuario con ese email
       </v-alert>
-    
-  </v-dialog>
+    </v-dialog>
   </div>
 </template>
 
@@ -102,7 +106,7 @@ export default Vue.extend({
       active: false,
       registerValid: false,
       loginValid: false,
-      sended:false,
+      sended: false,
       name: "",
       password: "",
       passwordLogin: "",
@@ -160,7 +164,6 @@ export default Vue.extend({
           this.usuario = data.results;
         } catch (error) {
           this.sended = true;
-
         }
       } else {
         this.$refs.form.validate();
@@ -171,29 +174,31 @@ export default Vue.extend({
     user() {
       return this.$store.getters["usuarios/getUser"];
     },
-    errorMessageLogin(){
-     return this.$store.getters["usuarios/getLoginError"]
-    }
+    errorMessageLogin() {
+      return this.$store.getters["usuarios/getLoginError"];
+    },
   },
 });
 </script>
 
 <style lang="scss" scoped>
 .container-form {
-  background-color: black;
   width: 100%;
+  height: 100%;
+  border-bottom: 10px solid #BB8A00;
   position: relative;
   transition: all 0.5s ease-in-out;
+  background-color: #1A2223;
 
   .formulario-container {
     padding: 10px 20px;
     width: 90%;
     max-width: 500px;
-    border: 2px solid #CD7A7F;
+    border: 2px solid #cd7a7f;
     border-radius: 8px;
   }
 
-  .formulario-section{
+  .formulario-section {
     width: 100%;
   }
   .formulario {

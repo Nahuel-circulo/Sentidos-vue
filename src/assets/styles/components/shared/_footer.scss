@@ -4,6 +4,8 @@
   color: $sentidos-pink !important;
   font-family: $font-merriweather !important;
   max-height: 350px;
+ 
+  box-sizing: border-box;
 
   &__container {
 
