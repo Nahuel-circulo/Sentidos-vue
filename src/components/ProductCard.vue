@@ -7,7 +7,7 @@
     </v-card-text>
     <v-card-actions>
       <v-btn text small class="product-card__btn" @click="show = true">
-        Descripcion
+        Descripción
       </v-btn>
     </v-card-actions>
 

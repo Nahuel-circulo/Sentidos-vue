@@ -13,8 +13,8 @@
       </v-btn>
     </div>
     <BloqueInfoServicio
-      :title="'Sentidos tea house and restaurant.'"
-      :subtitle="'Somos apacionados por lo que hacemos, usamos los mejores ingredientes en nuestros productos para hacerte vivir una experiencia única'"
+      :title="'Sentidos restaurante y casa de té.'"
+      :subtitle="'Somos apasionados por lo que hacemos, usamos los mejores ingredientes en nuestros productos para hacerte vivir una experiencia única.'"
       :image="require('@/assets/images/casa-de-te.jpg')"
     />
 

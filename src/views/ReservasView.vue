@@ -95,7 +95,7 @@
                 Continuar
               </v-btn>
 
-              <v-btn text @click="volverSeleccion"> Atras </v-btn>
+              <v-btn text @click="volverSeleccion"> Atrás </v-btn>
             </v-stepper-content>
 
             <v-stepper-content step="3">
@@ -162,7 +162,7 @@
                 Continuar
               </v-btn>
 
-              <v-btn text @click="e1 = 2"> Atras </v-btn>
+              <v-btn text @click="e1 = 2"> Atrás </v-btn>
             </v-stepper-content>
           </v-stepper-items>
         </v-stepper>
