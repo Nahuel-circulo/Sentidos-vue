@@ -64,8 +64,8 @@
                 <!--               <p><span class="">Reservado</span> <span>Disponible</span> <span>Su selccion</span></p>
  -->
                 <div class=" my-2 d-flex flex-row justify-space-around">
-                  <div style="background-color:#1A2223;" class="px-4 py-2 white--text">Reservado</div>
-                  <div style="background-color:#E9EAED;" class="px-4 py-2 ">Disponible</div>
+                  <div style="background-color:#E9EAED;" class="px-4 py-2 ">Reservado</div>
+                  <div style="background-color:#1A2223;" class="px-4 py-2 white--text">Disponible</div>
                   <div style="background-color:#CD7A7F;" class="px-4 py-2 white--text">Su seleccion</div>
                 </div>
                 <v-row class="pa-0 ma-0 tables__container">
