@@ -12,20 +12,17 @@
         Reserva aquí
       </v-btn>
     </div>
+
     <BloqueInfoServicio
       :title="'Sentidos restaurante y casa de té.'"
       :subtitle="'Somos apasionados por lo que hacemos, usamos los mejores ingredientes en nuestros productos para hacerte vivir una experiencia única.'"
       :image="require('@/assets/images/casa-de-te.jpg')"
     />
 
-    <h1 class=" mt-2 text-center  white--text" style="background-color:#BB8A00;">Lo que dicen Nuestros Clientes</h1>
-    <v-carousel
-      color="#CD7A7F"
-      cycle
-      height="auto"
-      class="my-2"
-      hide-delimiter-background
-    >
+    <h1 class="mt-2 text-center white--text" style="background-color: #bb8a00">
+      Lo que dicen Nuestros Clientes
+    </h1>
+    <v-carousel color="#CD7A7F" cycle height="auto" hide-delimiter-background>
       <v-carousel-item
         v-for="(comentario, i) in comentarios"
         :key="i"
@@ -69,6 +66,26 @@
         </div>
       </v-carousel-item>
     </v-carousel>
+    <div class="reserva-section mb-4">
+      <v-btn
+        plain
+        elevation="0"
+        to="/mi-cuenta"
+        block
+        class="reserva-section__btn"
+      >
+        Dejanos tu opinión
+      </v-btn>
+    </div>
+    <div class="protocolo-container">
+      <v-img
+        class="protocolo-image mx-auto"
+        max-width="800px"
+        contain
+        :src="require('@/assets/images/protocolo.jpg')"
+      >
+      </v-img>
+    </div>
     <BloqueInfoServicio
       :inverted="true"
       :title="'Métodos de pago'"

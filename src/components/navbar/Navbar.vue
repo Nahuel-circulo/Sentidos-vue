@@ -118,8 +118,8 @@
         <navbar-menu-link v-if="!user" type="NuxtLink" url="/login">
           Ingresar/Registrarse
         </navbar-menu-link>
-        <navbar-menu-link v-if="user" type="NuxtLink" url="/mis-reservas">
-          Mis Reservas
+        <navbar-menu-link v-if="user" type="NuxtLink" url="/mi-cuenta">
+          Mi Cuenta
         </navbar-menu-link>
         <!-- <navbar-menu-link type="NuxtLink" url="/contacto">
           Contacto
@@ -151,8 +151,8 @@
           class="navbar__menu--desktop__links__link"
           >Ingresar/Registrarse</router-link
         >
-        <router-link v-if="user" to="/mis-reservas" class="navbar__menu--desktop__links__link"
-          >Mis Reservas</router-link
+        <router-link v-if="user" to="/mi-cuenta" class="navbar__menu--desktop__links__link"
+          >Mi Cuenta</router-link
         >
         <!-- <router-link to="/contacto" class="navbar__menu--desktop__links__link"
           >Contacto</router-link

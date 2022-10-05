@@ -48,12 +48,12 @@ const routes: Array<RouteConfig> = [
   }
   ,
   {
-    path: '/mis-reservas',
-    name: 'mis-reservas',
+    path: '/mi-cuenta',
+    name: 'mi-cuenta',
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: reservas" */ '../views/MisReservasView.vue')
+    component: () => import(/* webpackChunkName: mi-cuenta" */ '../views/MisReservasView.vue')
   }
 
 ]

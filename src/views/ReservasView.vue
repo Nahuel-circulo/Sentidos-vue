@@ -173,7 +173,7 @@
       <v-alert v-model="alert" dismissible :type="reservaStatus.type">
         {{reservaStatus.message}}
       </v-alert>
-      <v-btn v-if="reservaStatus.type == 'success'" to="/mis-reservas"> Ir a mis reservas</v-btn>
+      <v-btn v-if="reservaStatus.type == 'success'" to="/mi-cuenta"> Ir a mis reservas</v-btn>
     
   </v-dialog>
   </main>
