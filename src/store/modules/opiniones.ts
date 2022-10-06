@@ -36,7 +36,6 @@ const actions: ActionTree<MenuStateInterface, any> = {
             }
         })
         state.opiniones = data.results
-        console.log(data.results)
         commit('SET_OPINIONES',data.results)
     },
 

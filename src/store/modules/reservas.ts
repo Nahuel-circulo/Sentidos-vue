@@ -20,6 +20,7 @@ export interface Reservas {
     fecha: String;
     confirmado: boolean;
     comensales: number;
+    cancelado:boolean
 }
 
 export interface MenuStateInterface {
@@ -77,7 +78,6 @@ const actions: ActionTree<MenuStateInterface, any> = {
             }
         })
         state.reservas = data.results
-        console.log(data)
         commit('SET_RESERVAS', data.results)
     },
     postReserva: async ({ commit }, payload: Reservas) => {
@@ -94,7 +94,6 @@ const actions: ActionTree<MenuStateInterface, any> = {
 
             commit('SET_RESERVA_STATUS',{ type: 'success', message: 'Reserva Relizada con exito' })
         } catch (error) {
-            console.log(error)
             commit('SET_RESERVA_STATUS', { type: 'error', message: 'Ocurrió un error al relizar la reserva' })
         }
 

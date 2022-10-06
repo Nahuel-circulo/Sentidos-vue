@@ -30,7 +30,7 @@
                     <th class="text-left text-body-1">
                       Cantidad de Comensales
                     </th>
-                    <th class="text-left text-body-1">Confirmar</th>
+                    <th class="text-left text-body-1">Confirmar / Cancelar</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -57,14 +57,23 @@
                     </td>
                     <td class="comercios_adheridos__table direccion">
                       <v-btn
-                        @click="pagar(item.id)"
+                        @click="pagar(item)"
                         color="#CD7A7F"
-                        v-if="!item.confirmado"
+                        v-if="!item.confirmado && !item.cancelado"
                         text
                       >
-                        Pagar
+                        Pagar $500
                       </v-btn>
-                      <p v-else style="color: #cd7a7f">PAGADO</p>
+                      <v-btn
+                        @click="cancelar(item)"
+                        color="#CD7A7F"
+                        v-if="!item.confirmado && !item.cancelado"
+                        text
+                      >
+                        Cancelar
+                      </v-btn>
+                      <p v-if="item.confirmado" style="color: #cd7a7f">CONFIRMADO</p>
+                      <p v-if="item.cancelado" style="color: #cd7a7f">CANCELADO</p>
                     </td>
                   </tr>
                 </tbody>
@@ -118,6 +127,7 @@ import Vue from "vue";
 import Header from "@/components/Header.vue";
 import axios from "axios";
 import { api_django } from "@/api/apiDajngo";
+import { Reservas } from "@/store/modules/reservas";
 export default Vue.extend({
   data() {
     return {
@@ -151,7 +161,6 @@ export default Vue.extend({
           calification: this.rating,
           gender: this.user.gender,
         });
-        console.log(data.results);
         this.message = "Gracias por dejarno tu opinión";
         this.type = "success";
         this.sended = true;
@@ -161,24 +170,45 @@ export default Vue.extend({
         this.sended = true;
       }
     },
-    async pagar(idMesa: number) {
+    async pagar(reserva:Reservas) {
       try {
-        const { data } = await api_django.put(`/reservation/${idMesa}/`, {
-          nro_mesa: 2,
-          horario: "M",
-          fecha: "2022-09-20",
+        const { data } = await api_django.put(`/reservation/${reserva.id}/`, {
+          nro_mesa: reserva.nro_mesa,
+          horario: reserva.horario,
+          fecha: reserva.fecha,
           confirmado: true,
-          comensales: 3,
-          user_id: 1,
+          comensales: reserva.comensales,
+          cancelado:false,
+          user_id: this.user.id,
         });
-        console.log(data.results);
         this.message = "Reserva Cofirmada Correctamente";
         this.sended = true;
         this.dialog = true;
         this.type = "success";
       } catch (error) {
-        console.log(error);
         this.message = "Ocurrio un problema al confirmar reserva";
+        this.type = "error";
+        this.sended = true;
+        this.dialog = true;
+      }
+    },
+    async cancelar(reserva:Reservas) {
+      try {
+        const { data } = await api_django.put(`/reservation/${reserva.id}/`, {
+          nro_mesa: reserva.nro_mesa,
+          horario: reserva.horario,
+          fecha: reserva.fecha,
+          confirmado: false,
+          comensales: reserva.comensales,
+          cancelado:true,
+          user_id: this.user.id,
+        });
+        this.message = "Reserva Cancelada";
+        this.sended = true;
+        this.dialog = true;
+        this.type = "success";
+      } catch (error) {
+        this.message = "Ocurrio un problema al cancelar reserva";
         this.type = "error";
         this.sended = true;
         this.dialog = true;

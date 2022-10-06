@@ -76,7 +76,6 @@ export default defineComponent({
   setup() {
     const overlay = ref(false);
     const viewImageOverlay = () => {
-      console.log("muestra");
       overlay.value = !overlay.value;
     };
     const imagenSeleccionada = ref("");

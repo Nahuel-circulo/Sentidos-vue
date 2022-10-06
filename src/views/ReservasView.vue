@@ -43,7 +43,7 @@
                 </div>
                 <label class="date-picker__label" for="fecha">Fecha</label>
                 <input
-                  :min="fecha"
+                  :min="hoy"
                   :max="max"
                   v-model="fecha"
                   id="fecha"
@@ -63,10 +63,22 @@
                 <p>Por favor seleccione su mesa</p>
                 <!--               <p><span class="">Reservado</span> <span>Disponible</span> <span>Su selccion</span></p>
  -->
-                <div class=" my-2 d-flex flex-row justify-space-around">
-                  <div style="background-color:#E9EAED;" class="px-4 py-2 ">Reservado</div>
-                  <div style="background-color:#1A2223;" class="px-4 py-2 white--text">Disponible</div>
-                  <div style="background-color:#CD7A7F;" class="px-4 py-2 white--text">Su seleccion</div>
+                <div class="my-2 d-flex flex-row justify-space-around">
+                  <div style="background-color: #e9eaed" class="px-4 py-2">
+                    Reservado
+                  </div>
+                  <div
+                    style="background-color: #1a2223"
+                    class="px-4 py-2 white--text"
+                  >
+                    Disponible
+                  </div>
+                  <div
+                    style="background-color: #cd7a7f"
+                    class="px-4 py-2 white--text"
+                  >
+                    Su seleccion
+                  </div>
                 </div>
                 <v-row class="pa-0 ma-0 tables__container">
                   <v-col
@@ -119,8 +131,8 @@
                   solo
                 ></v-text-field>
                 <label class="date-picker__label" for="mesa"
-                    >Mesa seleccionada</label
-                  >
+                  >Mesa seleccionada</label
+                >
                 <v-text-field
                   class="reservas__form-field"
                   v-model="table"
@@ -130,6 +142,7 @@
                   required
                   solo
                 ></v-text-field>
+                
                 <div class="mb-2">
                   <label class="date-picker__label" for="cantidad"
                     >Cantidad de comensales</label
@@ -157,25 +170,38 @@
                   :counter="144"
                   label="Comentario (opcional)"
                 ></v-textarea>
+                <div class="my-2" >
+                  <p class="mb-0 red--text" v-if="esMenor">Debido a la fecha seleccionada ({{fecha}}), se encuentra dentro de las proximas 24hs,  deberá pagar en ésta instancia para poder completar la reserva.</p>
+                  <p class="mb-0" v-else> Pagar (puede abonar hasta 48hs antes) </p>
+                  <v-btn text color="#CD7A7F" @click="pagar" :disabled="pagado">
+                    <span v-if="pagado">Pagado</span>
+                    <span v-else> Pagar $500</span>
+                  </v-btn>
+                  
+                </div>
               </div>
-              <v-btn color="#CD7A7F white--text" @click="completarReserva">
+              <v-btn :disabled="!pagado && esMenor" color="#CD7A7F white--text" @click="completarReserva">
                 Continuar
               </v-btn>
 
-              <v-btn text @click="e1 = 2"> Atrás </v-btn>
+              <v-btn text @click="volverSeleccion2"> Atrás </v-btn>
             </v-stepper-content>
           </v-stepper-items>
         </v-stepper>
       </v-container>
     </div>
-    <v-dialog transition="dialog-bottom-transition" max-width="600" v-model="alert">
-      
+    <v-dialog
+      transition="dialog-bottom-transition"
+      max-width="600"
+      v-model="alert"
+    >
       <v-alert v-model="alert" dismissible :type="reservaStatus.type">
-        {{reservaStatus.message}}
+        {{ reservaStatus.message }}
       </v-alert>
-      <v-btn v-if="reservaStatus.type == 'success'" to="/mi-cuenta"> Ir a mis reservas</v-btn>
-    
-  </v-dialog>
+      <v-btn v-if="reservaStatus.type == 'success'" to="/mi-cuenta" >
+        Ir a mis reservas</v-btn
+      >
+    </v-dialog>
   </main>
 </template>
 
@@ -188,12 +214,14 @@ export default Vue.extend({
   data() {
     return {
       e1: 1,
-      alert:false,
+      pagado:false,
+      alert: false,
       hoy: moment().format("YYYY-MM-DD"),
       max: moment().add(30, "days").format("YYYY-MM-DD"),
       fecha: moment().add(2, "days").format("YYYY-MM-DD"),
       table: 0,
       comentanio: "",
+      confirmado:false,
       email: "",
       emailRules: [(v: any) => !!v || "Email es requerido"],
       name: "",
@@ -206,6 +234,10 @@ export default Vue.extend({
   methods: {
     changeColor(nro_mesa: number) {
       this.table = nro_mesa;
+    },
+    pagar() {
+      this.pagado = true;
+      this.confirmado = true;
     },
     fetchReservas() {
       var hora;
@@ -225,15 +257,20 @@ export default Vue.extend({
         nro_mesa: this.table,
         horario: this.horario == "Matutino" ? "M" : "N",
         fecha: this.fecha,
-        confirmado: false,
+        confirmado: this.confirmado,
+        cancelado: false,
         comensales: this.cantidad,
-        user_id:this.user.id
+        user_id: this.user.id,
       });
     },
     volverSeleccion() {
       this.e1 = 1;
       this.table = 0;
       this.$store.commit("reservas/RESET_MESAS");
+    },
+    volverSeleccion2() {
+      this.e1 = 2;
+      this.pagado = false
     },
   },
   mounted() {
@@ -249,8 +286,12 @@ export default Vue.extend({
     user() {
       return this.$store.getters["usuarios/getUser"];
     },
-    reservaStatus(){
-      return this.$store.getters['reservas/getReservaStatus']
+    reservaStatus() {
+      return this.$store.getters["reservas/getReservaStatus"];
+    },
+    /* FIXME: arreglar la fecha de reserva */
+    esMenor(){
+     return moment(this.fecha).dayOfYear() - moment().dayOfYear() <= 1
     }
   },
   beforeMount() {
@@ -259,11 +300,11 @@ export default Vue.extend({
     }
   },
   watch: {
-    reservaStatus(newValue,oldValue){
+    reservaStatus(newValue, oldValue) {
       if (newValue) {
-        this.alert = true
+        this.alert = true;
       }
-    }
+    },
   },
   components: { Header },
 });

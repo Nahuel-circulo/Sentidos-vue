@@ -21,7 +21,7 @@
           </p>
           <p>
             <span class="text-divider">|</span>
-            Desarrollado por DevStation
+            <a href="https://devstation213396337.wordpress.com/" target="_blank" style="color:#CD7A7F; text-decoration: none;">Desarrollado por DevStation</a> 
             <span class="text-divider">|</span>
           </p>
         </div>
