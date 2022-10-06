@@ -72,8 +72,12 @@
                       >
                         Cancelar
                       </v-btn>
-                      <p v-if="item.confirmado" style="color: #cd7a7f">CONFIRMADO</p>
-                      <p v-if="item.cancelado" style="color: #cd7a7f">CANCELADO</p>
+                      <p v-if="item.confirmado" style="color: #cd7a7f">
+                        CONFIRMADO
+                      </p>
+                      <p v-if="item.cancelado" style="color: #cd7a7f">
+                        CANCELADO
+                      </p>
                     </td>
                   </tr>
                 </tbody>
@@ -112,12 +116,12 @@
         </v-form>
       </div>
     </v-container>
-    <v-dialog transition="dialog-bottom-transition" max-width="600" v-model="sended">
-      
-        <v-alert v-model="sended" dismissible :type="type">{{
-          message
-        }}</v-alert>
-      
+    <v-dialog
+      transition="dialog-bottom-transition"
+      max-width="600"
+      v-model="sended"
+    >
+      <v-alert v-model="sended" dismissible :type="type">{{ message }}</v-alert>
     </v-dialog>
   </main>
 </template>
@@ -126,6 +130,7 @@
 import Vue from "vue";
 import Header from "@/components/Header.vue";
 import axios from "axios";
+import moment from "moment";
 import { api_django } from "@/api/apiDajngo";
 import { Reservas } from "@/store/modules/reservas";
 export default Vue.extend({
@@ -136,7 +141,7 @@ export default Vue.extend({
       valid: false,
       rating: 0,
       sended: false,
-      dialog:false,
+      dialog: false,
       message: "",
       type: "success",
     };
@@ -170,7 +175,7 @@ export default Vue.extend({
         this.sended = true;
       }
     },
-    async pagar(reserva:Reservas) {
+    async pagar(reserva: Reservas) {
       try {
         const { data } = await api_django.put(`/reservation/${reserva.id}/`, {
           nro_mesa: reserva.nro_mesa,
@@ -178,7 +183,7 @@ export default Vue.extend({
           fecha: reserva.fecha,
           confirmado: true,
           comensales: reserva.comensales,
-          cancelado:false,
+          cancelado: false,
           user_id: this.user.id,
         });
         this.message = "Reserva Cofirmada Correctamente";
@@ -192,7 +197,7 @@ export default Vue.extend({
         this.dialog = true;
       }
     },
-    async cancelar(reserva:Reservas) {
+    async cancelar(reserva: Reservas) {
       try {
         const { data } = await api_django.put(`/reservation/${reserva.id}/`, {
           nro_mesa: reserva.nro_mesa,
@@ -200,7 +205,7 @@ export default Vue.extend({
           fecha: reserva.fecha,
           confirmado: false,
           comensales: reserva.comensales,
-          cancelado:true,
+          cancelado: true,
           user_id: this.user.id,
         });
         this.message = "Reserva Cancelada";
@@ -213,6 +218,7 @@ export default Vue.extend({
         this.sended = true;
         this.dialog = true;
       }
+      this.$store.dispatch("reservas/fetchMisReservas", this.user.id);
     },
   },
   components: { Header },
@@ -220,6 +226,20 @@ export default Vue.extend({
     if (!this.user) {
       this.$router.push("/login");
     }
+  },
+  mounted() {
+    this.mis_reservas.forEach((reserva: Reservas) => {
+      //@ts-ignore
+      if (
+        moment(reserva.fecha).dayOfYear() - moment().dayOfYear() == 1 &&
+        !reserva.cancelado &&
+        !reserva.confirmado
+      ) {
+        console.log("cancela :", reserva.fecha);
+        this.cancelar(reserva)
+        this.$store.dispatch("reservas/fetchMisReservas", this.user.id);
+      }
+    });
   },
   created() {
     this.$store.dispatch("reservas/fetchMisReservas", this.user.id);

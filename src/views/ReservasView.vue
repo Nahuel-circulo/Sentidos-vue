@@ -289,7 +289,7 @@ export default Vue.extend({
     reservaStatus() {
       return this.$store.getters["reservas/getReservaStatus"];
     },
-    /* FIXME: arreglar la fecha de reserva */
+
     esMenor(){
      return moment(this.fecha).dayOfYear() - moment().dayOfYear() <= 1
     }
