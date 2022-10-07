@@ -208,7 +208,8 @@ export default Vue.extend({
           cancelado: true,
           user_id: this.user.id,
         });
-        this.message = "Reserva Cancelada";
+        console.log(data)
+        this.message = `Reserva del día ${data.fecha} Cancelada`;
         this.sended = true;
         this.dialog = true;
         this.type = "success";
@@ -228,18 +229,20 @@ export default Vue.extend({
     }
   },
   mounted() {
-    this.mis_reservas.forEach((reserva: Reservas) => {
-      //@ts-ignore
-      if (
-        moment(reserva.fecha).dayOfYear() - moment().dayOfYear() == 1 &&
-        !reserva.cancelado &&
-        !reserva.confirmado
-      ) {
-        console.log("cancela :", reserva.fecha);
-        this.cancelar(reserva)
-        this.$store.dispatch("reservas/fetchMisReservas", this.user.id);
-      }
-    });
+    setTimeout(() => {
+      this.mis_reservas.forEach((reserva: Reservas) => {
+        //@ts-ignore
+        if (
+          moment(reserva.fecha).dayOfYear() - moment().dayOfYear() == 1 &&
+          !reserva.cancelado &&
+          !reserva.confirmado
+        ) {
+          console.log("cancela :", reserva.fecha);
+          this.cancelar(reserva)
+          this.$store.dispatch("reservas/fetchMisReservas", this.user.id);
+        }
+      });
+    }, 3000);
   },
   created() {
     this.$store.dispatch("reservas/fetchMisReservas", this.user.id);
