@@ -45,6 +45,7 @@
                 <input
                   :min="hoy"
                   :max="max"
+                  onkeydown="return false"
                   v-model="fecha"
                   id="fecha"
                   class="reservas__form-field date-picker mb-4"
