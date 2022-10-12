@@ -89,7 +89,8 @@ const actions: ActionTree<MenuStateInterface, any> = {
                 'fecha': payload.fecha,
                 'confirmado': payload.confirmado,
                 'comensales': payload.comensales,
-                'user_id':payload.user_id
+                'user_id':payload.user_id,
+                'cancelado':payload.cancelado
             })
 
             commit('SET_RESERVA_STATUS',{ type: 'success', message: 'Reserva Relizada con exito' })
