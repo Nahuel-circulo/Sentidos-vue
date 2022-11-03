@@ -4,10 +4,12 @@ import { GetterTree, ActionTree, MutationTree } from 'vuex';
 // initial state
 
 export interface Usuario {
-    id: number;
-    name: string;
-    email: string;
-    gender: number;
+    id:        string;
+    gender:    string;
+    email:     string;
+    createdAt: Date;
+    updatedAt: Date;
+    name:      string;
 }
 
 export interface MenuStateInterface {
@@ -33,15 +35,10 @@ const getters: GetterTree<MenuStateInterface, any> = {
 // actions
 const actions: ActionTree<MenuStateInterface, any> = {
     fetchUser: async ({ commit }, { email, password }) => {
-        const { data } = await api_django.get('/users/', {
-            params: {
-                email,
-                password
-            }
-        })
-        if (data.results.length) {
-            localStorage.setItem("sentidos_user", JSON.stringify(data.results[0]))
-            commit('SET_USER', data.results[0])
+        const { data } = await api_django.get(`/usuario?where[email][equals]=${email}&where[password][equals]=${password}`)
+        if (data.docs.length) {
+            localStorage.setItem("sentidos_user", JSON.stringify(data.docs[0]))
+            commit('SET_USER', data.docs[0])
             commit("SET_LOGIN_ERROR", "")
         } else {
             commit("SET_LOGIN_ERROR", "Los datos ingresados son incorrectos")

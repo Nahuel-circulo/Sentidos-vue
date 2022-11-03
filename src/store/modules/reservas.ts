@@ -1,30 +1,47 @@
 import { api_django } from '@/api/apiDajngo';
 import { GetterTree, ActionTree, MutationTree } from 'vuex';
 
-export interface MesasFetch {
-    id: number;
-    nro_mesa: number;
-}
-export interface Mesas {
-    id: number;
+
+export interface MesasC {
+    id:        string;
+    updatedAt: Date;
+    createdAt: Date;
     nro_mesa: number;
     reservado: Boolean;
 }
 
 
 export interface Reservas {
-    id: number;
-    user_id: number;
-    nro_mesa: number;
-    horario: string;
-    fecha: String;
+    id:         string;
+    fecha:      Date;
+    horario:    string;
     confirmado: boolean;
+    cancelado:  boolean;
     comensales: number;
-    cancelado:boolean
+    user:       User;
+    createdAt:  Date;
+    updatedAt:  Date;
+    mesa:       Mesa;
+}
+
+export interface Mesa {
+    id:        string;
+    updatedAt: Date;
+    createdAt: Date;
+    nro_mesa:  number;
+}
+
+export interface User {
+    id:        string;
+    gender:    string;
+    email:     string;
+    createdAt: Date;
+    updatedAt: Date;
+    name:      string;
 }
 
 export interface MenuStateInterface {
-    mesas: Mesas[],
+    mesas: MesasC[],
     reservas: Reservas[]
     misReservas: Reservas[],
     loading: Boolean,
@@ -67,29 +84,24 @@ const getters: GetterTree<MenuStateInterface, any> = {
 // actions
 const actions: ActionTree<MenuStateInterface, any> = {
     fetchMesas: async ({ commit, state }) => {
-        const { data } = await api_django.get('/tables/')
-        commit('SET_MESAS', data.results)
+        const { data } = await api_django.get('/mesa?limit=20')
+        commit('SET_MESAS', data.docs)
     },
     fetchReservas: async ({ commit, state }, { fecha, horario }) => {
-        const { data } = await api_django.get('/reservation/', {
-            params: {
-                horario,
-                fecha
-            }
-        })
-        state.reservas = data.results
-        commit('SET_RESERVAS', data.results)
+        const { data } = await api_django.get(`/reservations?where[fecha][equals]=${fecha}&where[horario][equals]=${horario}`, )
+        state.reservas = data.docs
+        commit('SET_RESERVAS', data.docs)
     },
-    postReserva: async ({ commit }, payload: Reservas) => {
+    postReserva: async ({ commit }, payload:any) => {
         try {
 
-            const { data } = await api_django.post('/reservation/', {
-                'nro_mesa': payload.nro_mesa,
+            const { data } = await api_django.post('/reservations', {
+                'mesa': payload.mesa,
                 'horario': payload.horario,
                 'fecha': payload.fecha,
                 'confirmado': payload.confirmado,
                 'comensales': payload.comensales,
-                'user_id':payload.user_id
+                'user':payload.user_id
             })
 
             commit('SET_RESERVA_STATUS',{ type: 'success', message: 'Reserva Relizada con exito' })
@@ -98,14 +110,11 @@ const actions: ActionTree<MenuStateInterface, any> = {
         }
 
     },
-    fetchMisReservas: async ({ commit }, payload: number) => {
+    fetchMisReservas: async ({ commit }, payload: string) => {
         commit('SET_LOADING', true)
-        const { data } = await api_django.get('/reservation/', {
-            params: {
-                user_id: payload
-            }
-        })
-        commit('SET_MIS_RESERVAS', data.results)
+        const { data } = await api_django.get(`/reservations?where[user][equals]=${payload}`)
+        console.log(data.docs)
+        commit('SET_MIS_RESERVAS', data.docs)
         commit('SET_LOADING', false)
     }
 
@@ -114,8 +123,8 @@ const actions: ActionTree<MenuStateInterface, any> = {
 
 // mutations
 const mutations: MutationTree<MenuStateInterface> = {
-    SET_MESAS(state, payload: Array<MesasFetch>) {
-        let mesas: Array<Mesas> = payload.map((mesa) => {
+    SET_MESAS(state, payload: Array<Mesa>) {
+        let mesas: Array<MesasC> = payload.map((mesa) => {
             return { ...mesa, reservado: false }
         })
         state.mesas = mesas
@@ -123,11 +132,11 @@ const mutations: MutationTree<MenuStateInterface> = {
 
     SET_RESERVAS(state, payload: Array<Reservas>) {
         if (payload.length) {
-            let mesasReservadas: Array<Mesas> = [...state.mesas]
+            let mesasReservadas: Array<MesasC> = [...state.mesas]
             payload.forEach((reserva) => {
 
                 mesasReservadas.forEach((mesa, i) => {
-                    if (mesa.nro_mesa == reserva.nro_mesa) {
+                    if (mesa.nro_mesa == reserva.mesa.nro_mesa) {
                         const mesaReservada = { ...mesa, reservado: true }
                         mesasReservadas[i] = mesaReservada
                     } else {

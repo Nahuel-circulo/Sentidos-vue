@@ -51,7 +51,7 @@
           >
             <ProductCard
               :description="food.description"
-              :image="food.image"
+              :image="food.image.url"
               :price="food.price"
               :title="food.name"
             />
@@ -78,7 +78,7 @@
           >
             <ProductCard
               :description="food.description"
-              :image="food.image"
+              :image="food.image.url"
               :price="food.price"
               :title="food.name"
             />
@@ -116,8 +116,8 @@ export default Vue.extend({
     },
   },
   created() {
-    this.$store.dispatch("menu/fetchComidas", "F");
-    this.$store.dispatch("menu/fetchTes", "T");
+    this.$store.dispatch("menu/fetchComidas", "6362d349c20c424d4b387d6c");
+    this.$store.dispatch("menu/fetchTes", "6362d378c20c424d4b387d8b");
   },
 });
 </script>

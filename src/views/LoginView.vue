@@ -155,7 +155,7 @@ export default Vue.extend({
     async register() {
       if (this.registerValid && this.password && this.email && this.gender) {
         try {
-          const { data } = await api_django.post("/users/", {
+          const { data } = await api_django.post("/usuario", {
             name: this.name,
             gender: this.gender,
             email: this.email,

@@ -35,8 +35,8 @@
                 </thead>
                 <tbody>
                   <tr
-                    v-for="(item, index) in mis_reservas"
-                    :key="item.id + index"
+                    v-for="(item) in mis_reservas"
+                    :key="item.id"
                   >
                     <td class="comercios_adheridos__table uppercase">
                       {{ item.fecha }}
@@ -50,7 +50,7 @@
                       </p>
                     </td>
                     <td class="comercios_adheridos__table">
-                      {{ item.nro_mesa }}
+                      {{ item.mesa.nro_mesa }}
                     </td>
                     <td class="comercios_adheridos__table">
                       {{ item.comensales }}
@@ -160,11 +160,10 @@ export default Vue.extend({
   methods: {
     async sendOpinion() {
       try {
-        const { data } = await api_django.post("/opinion/", {
-          name: this.user.name,
+        const { data } = await api_django.post("/opinion", {
           comment: this.comment,
           calification: this.rating,
-          gender: this.user.gender,
+          user: this.user.id
         });
         this.message = "Gracias por dejarno tu opinión";
         this.type = "success";
@@ -177,8 +176,8 @@ export default Vue.extend({
     },
     async pagar(reserva: Reservas) {
       try {
-        const { data } = await api_django.put(`/reservation/${reserva.id}/`, {
-          nro_mesa: reserva.nro_mesa,
+        const { data } = await api_django.put(`/reservations/${reserva.id}/`, {
+          mesa: reserva.mesa.id,
           horario: reserva.horario,
           fecha: reserva.fecha,
           confirmado: true,
@@ -196,11 +195,12 @@ export default Vue.extend({
         this.sended = true;
         this.dialog = true;
       }
+      this.$store.dispatch("reservas/fetchMisReservas", this.user.id);
     },
     async cancelar(reserva: Reservas) {
       try {
-        const { data } = await api_django.put(`/reservation/${reserva.id}/`, {
-          nro_mesa: reserva.nro_mesa,
+        const { data } = await api_django.put(`/reservations/${reserva.id}/`, {
+          mesa: reserva.mesa.id,
           horario: reserva.horario,
           fecha: reserva.fecha,
           confirmado: false,

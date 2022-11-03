@@ -42,12 +42,12 @@
             <v-col cols="12" sm="5" class="d-flex justify-center align-center">
               <div class="mx-auto d-flex flex-column">
                 <h2 class="text-center white--text my-2">
-                  {{ comentario.name }}
+                  {{ comentario.user.name }}
                 </h2>
                 <v-img
                   class="comentario__image"
                   :src="
-                    comentario.gender == 'H'
+                    comentario.user.gender == 'H'
                       ? require('../assets/M.svg')
                       : require('../assets/F.svg')
                   "

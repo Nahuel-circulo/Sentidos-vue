@@ -90,11 +90,11 @@
                   >
                     <v-btn
                       class="icon-color"
-                      :color="table == item.nro_mesa ? '#CD7A7F' : '#1A2223'"
+                      :color="table.nro == item.nro_mesa ? '#CD7A7F' : '#1A2223'"
                       :disabled="item.reservado"
-                      @click="changeColor(item.nro_mesa)"
+                      @click="changeColor(item.nro_mesa,item.id)"
                     >
-                      {{ item.id }}
+                      {{ item.nro_mesa }}
                     </v-btn>
                   </v-col>
                 </v-row>
@@ -102,7 +102,7 @@
 
               <v-btn
                 color="#CD7A7F white--text"
-                :disabled="table == 0"
+                :disabled="table.nro == 0"
                 @click="e1 = 3"
               >
                 Continuar
@@ -114,29 +114,12 @@
             <v-stepper-content step="3">
               <!-- step 3 -->
               <div class="step py-8">
-                <v-text-field
-                  class="reservas__form-field"
-                  v-model="name"
-                  :rules="nameRules"
-                  :counter="30"
-                  label="Nombre y Apellido"
-                  required
-                  solo
-                ></v-text-field>
-                <v-text-field
-                  class="reservas__form-field"
-                  v-model="email"
-                  :rules="emailRules"
-                  label="E-mail"
-                  required
-                  solo
-                ></v-text-field>
                 <label class="date-picker__label" for="mesa"
                   >Mesa seleccionada</label
                 >
                 <v-text-field
                   class="reservas__form-field"
-                  v-model="table"
+                  v-model="table.nro"
                   readonly
                   label="Mesa"
                   name="mesa"
@@ -220,7 +203,10 @@ export default Vue.extend({
       hoy: moment().format("YYYY-MM-DD"),
       max: moment().add(30, "days").format("YYYY-MM-DD"),
       fecha: moment().add(2, "days").format("YYYY-MM-DD"),
-      table: 0,
+      table: {
+        nro : 0,
+        id: ''
+      },
       comentanio: "",
       confirmado:false,
       email: "",
@@ -233,8 +219,9 @@ export default Vue.extend({
     };
   },
   methods: {
-    changeColor(nro_mesa: number) {
-      this.table = nro_mesa;
+    changeColor(nro_mesa: number,id:string) {
+      this.table.nro = nro_mesa
+      this.table.id = id
     },
     pagar() {
       this.pagado = true;
@@ -255,7 +242,7 @@ export default Vue.extend({
     },
     completarReserva() {
       this.$store.dispatch("reservas/postReserva", {
-        nro_mesa: this.table,
+        mesa: this.table.id,
         horario: this.horario == "Matutino" ? "M" : "N",
         fecha: this.fecha,
         confirmado: this.confirmado,
@@ -266,7 +253,7 @@ export default Vue.extend({
     },
     volverSeleccion() {
       this.e1 = 1;
-      this.table = 0;
+      this.table.nro = 0;
       this.$store.commit("reservas/RESET_MESAS");
     },
     volverSeleccion2() {
