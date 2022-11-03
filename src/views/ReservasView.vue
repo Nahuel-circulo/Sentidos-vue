@@ -155,6 +155,7 @@
                   label="Comentario (opcional)"
                 ></v-textarea>
                 <div class="my-2" >
+                  {{user.id}}
                   <p class="mb-0 red--text" v-if="esMenor">Debido a la fecha seleccionada ({{fecha}}), se encuentra dentro de las proximas 24hs,  deberá pagar en ésta instancia para poder completar la reserva.</p>
                   <p class="mb-0" v-else> Pagar (puede abonar hasta 48hs antes) </p>
                   <v-btn text color="#CD7A7F" @click="pagar" :disabled="pagado">
