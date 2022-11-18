@@ -48,6 +48,9 @@
         <div class="navbar__links__link">
           <router-link to="/reservas">Reservas</router-link>
         </div>
+        <div class="navbar__links__link">
+          <a href="https://www.facebook.com" target="_blank">Nuestra App</a>
+        </div>
       </div>
       <!--  -->
       <div class="navbar__hamburguer">
