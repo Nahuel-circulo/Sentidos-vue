@@ -85,6 +85,7 @@
         <navbar-menu-link type="NuxtLink" url="/reservas">
           Reservas
         </navbar-menu-link>
+        
         <!-- <div
           class="navbar__menu__link servicios"
           @mouseover="serviciosIsActive = true"
@@ -124,6 +125,9 @@
         <navbar-menu-link v-if="user" type="NuxtLink" url="/mi-cuenta">
           Mi Cuenta
         </navbar-menu-link>
+        <div class="navbar__links__link">
+          <a href="https://drive.google.com/file/d/1YEGu3mTSHWKm8Y7SkZIXhTOUBnQJl2js/view?usp=share_link" target="_blank">Nuestra App</a>
+        </div>
         <!-- <navbar-menu-link type="NuxtLink" url="/contacto">
           Contacto
         </navbar-menu-link> -->
