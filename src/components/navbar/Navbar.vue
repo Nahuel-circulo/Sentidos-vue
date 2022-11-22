@@ -49,7 +49,7 @@
           <router-link to="/reservas">Reservas</router-link>
         </div>
         <div class="navbar__links__link">
-          <a href="https://www.facebook.com" target="_blank">Nuestra App</a>
+          <a href="https://drive.google.com/file/d/1YEGu3mTSHWKm8Y7SkZIXhTOUBnQJl2js/view?usp=share_link" target="_blank">Nuestra App</a>
         </div>
       </div>
       <!--  -->
